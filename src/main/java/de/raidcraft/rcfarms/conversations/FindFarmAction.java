@@ -1,11 +1,12 @@
 package de.raidcraft.rcfarms.conversations;
 
+import de.raidcraft.RaidCraft;
 import de.raidcraft.rcconversations.api.action.AbstractAction;
 import de.raidcraft.rcconversations.api.action.ActionArgumentException;
 import de.raidcraft.rcconversations.api.action.ActionArgumentList;
 import de.raidcraft.rcconversations.api.action.ActionInformation;
 import de.raidcraft.rcconversations.api.conversation.Conversation;
-import de.raidcraft.rcfarms.util.WorldGuardUtil;
+import de.raidcraft.rcfarms.RCFarmsPlugin;
 
 /**
  * @author Philip Urban
@@ -19,7 +20,7 @@ public class FindFarmAction extends AbstractAction {
         String success = args.getString("onsuccess", null);
         String failure = args.getString("onfailure", null);
 
-        String farmName = WorldGuardUtil.getFarmName(conversation.getHost().getLocation());
+        String farmName = RaidCraft.getComponent(RCFarmsPlugin.class).getWorldGuardManager().getFarmName(conversation.getHost().getLocation());
 
         if(farmName == null) {
             if(failure != null) {
@@ -28,7 +29,7 @@ public class FindFarmAction extends AbstractAction {
             }
             return;
         }
-        conversation.set("farm-name", farmName);
+        conversation.set("farm_id", farmName);
         if(success != null) {
             conversation.setCurrentStage(success);
             conversation.triggerCurrentStage();

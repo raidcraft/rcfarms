@@ -15,6 +15,25 @@ stages:
         type: FIND_FARM
         args:
           onfailure: destroy
+      B:
+        type: IS_FARM_OWNER
+        args:
+          onsuccess: is_owner
+      C:
+        type: IS_FARM_FOR_SALE
+        args:
+          onfailure: not_for_sale
+    text: 'Hallo %name, wie kann ich dir helfen?'
+    answers:
+      1:
+        text: 'Ich möchte diese Farm kaufen'
+        actions:
+          A:
+            type: STAGE
+            args:
+              stage: confirm_buy
+      2:
+
 
   destroy:
     actions:

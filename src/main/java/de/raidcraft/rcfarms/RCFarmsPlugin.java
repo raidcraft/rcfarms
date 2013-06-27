@@ -6,9 +6,12 @@ import de.raidcraft.api.BasePlugin;
 import de.raidcraft.api.config.ConfigurationBase;
 import de.raidcraft.api.config.Setting;
 import de.raidcraft.rcconversations.actions.ActionManager;
+import de.raidcraft.rcfarms.conversations.BuyFarmAction;
 import de.raidcraft.rcfarms.conversations.FindFarmAction;
+import de.raidcraft.rcfarms.conversations.GetFarmPriceAction;
 import de.raidcraft.rcfarms.tables.TFarms;
 import de.raidcraft.rcfarms.upgrades.FarmRestoreFrequencyUpgrade;
+import de.raidcraft.rcfarms.util.WorldGuardManager;
 import de.raidcraft.rcupgrades.RCUpgradesPlugin;
 import org.bukkit.Bukkit;
 
@@ -22,19 +25,25 @@ public class RCFarmsPlugin extends BasePlugin {
 
     private LocalConfiguration config;
     private WorldGuardPlugin worldGuard;
+    private WorldGuardManager worldGuardManager;
+    private FarmManager farmManager;
 
     @Override
     public void enable() {
 
         // register conversation actions
         ActionManager.registerAction(new FindFarmAction());
+        ActionManager.registerAction(new GetFarmPriceAction());
+        ActionManager.registerAction(new BuyFarmAction());
 
         // register upgrades
         RaidCraft.getComponent(RCUpgradesPlugin.class).getUpgradeManager().registerUpgrade(FarmRestoreFrequencyUpgrade.class);
 
-        worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
-
         reload();
+
+        worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+        worldGuardManager = new WorldGuardManager(this, worldGuard);
+        farmManager = new FarmManager(this);
     }
 
     @Override
@@ -65,13 +74,29 @@ public class RCFarmsPlugin extends BasePlugin {
         return worldGuard;
     }
 
+    public WorldGuardManager getWorldGuardManager() {
+
+        return worldGuardManager;
+    }
+
+    public FarmManager getFarmManager() {
+
+        return farmManager;
+    }
+
     public class LocalConfiguration extends ConfigurationBase<RCFarmsPlugin> {
+
+        @Setting("farm-world")
+        public String world = "world";
 
         @Setting("farm-region-prefix")
         public String farmPrefix = "itemfarm_";
 
         @Setting("max-farm-per-player")
         public int playerMaxFarmCount = 3;
+
+        @Setting("farm-price-per-block")
+        public double pricePerBlock = 0.1;
 
         public LocalConfiguration(RCFarmsPlugin plugin) {
 
