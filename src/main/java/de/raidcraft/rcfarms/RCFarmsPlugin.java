@@ -6,9 +6,7 @@ import de.raidcraft.api.BasePlugin;
 import de.raidcraft.api.config.ConfigurationBase;
 import de.raidcraft.api.config.Setting;
 import de.raidcraft.rcconversations.actions.ActionManager;
-import de.raidcraft.rcfarms.conversations.BuyFarmAction;
-import de.raidcraft.rcfarms.conversations.FindFarmAction;
-import de.raidcraft.rcfarms.conversations.GetFarmPriceAction;
+import de.raidcraft.rcfarms.conversations.*;
 import de.raidcraft.rcfarms.tables.TFarms;
 import de.raidcraft.rcfarms.upgrades.FarmRestoreFrequencyUpgrade;
 import de.raidcraft.rcfarms.util.WorldGuardManager;
@@ -35,6 +33,8 @@ public class RCFarmsPlugin extends BasePlugin {
         ActionManager.registerAction(new FindFarmAction());
         ActionManager.registerAction(new GetFarmPriceAction());
         ActionManager.registerAction(new BuyFarmAction());
+        ActionManager.registerAction(new IsForSaleAction());
+        ActionManager.registerAction(new IsFarmOwnerAction());
 
         // register upgrades
         RaidCraft.getComponent(RCUpgradesPlugin.class).getUpgradeManager().registerUpgrade(FarmRestoreFrequencyUpgrade.class);

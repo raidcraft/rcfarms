@@ -20,16 +20,21 @@ public class FindFarmAction extends AbstractAction {
         String success = args.getString("onsuccess", null);
         String failure = args.getString("onfailure", null);
 
-        String farmName = RaidCraft.getComponent(RCFarmsPlugin.class).getWorldGuardManager().getFarmName(conversation.getHost().getLocation());
+        RCFarmsPlugin plugin = RaidCraft.getComponent(RCFarmsPlugin.class);
 
-        if(farmName == null) {
+        String farmId = plugin.getWorldGuardManager().getFarmName(conversation.getHost().getLocation());
+
+        if(farmId == null) {
             if(failure != null) {
                 conversation.setCurrentStage(failure);
                 conversation.triggerCurrentStage();
             }
             return;
         }
-        conversation.set("farm_id", farmName);
+        conversation.set("farm_id", farmId);
+        double price = plugin.getFarmManager().getFarmPrice(farmId);
+        conversation.set("farm_price", price);
+        conversation.set("farm_price_formatted", RaidCraft.getEconomy().getFormattedAmount(price));
         if(success != null) {
             conversation.setCurrentStage(success);
             conversation.triggerCurrentStage();
