@@ -43,5 +43,15 @@
             <artifactId>raidcraft-api</artifactId>
             <version>LATEST</version>
         </dependency>
+        <dependency>
+            <groupId>de.raidcraft</groupId>
+            <artifactId>rcconversations</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>de.raidcraft</groupId>
+            <artifactId>upgrades</artifactId>
+            <version>LATEST</version>
+        </dependency>
     </dependencies>
 </project>
