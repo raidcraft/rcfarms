@@ -9,7 +9,7 @@ import de.raidcraft.rcupgrades.api.upgrade.UpgradeInformation;
 @UpgradeInformation(name = "FARM_RESTORE_FREQUENCY")
 public class FarmRestoreFrequencyUpgrade extends AbstractUpgrade {
 
-    private int currentLevel;
+    private int currentLevel = 0;
 
     @Override
     public int getCurrentLevel() {
@@ -29,6 +29,7 @@ public class FarmRestoreFrequencyUpgrade extends AbstractUpgrade {
 
     @Override
     public void setLevel(int level) {
-        //TODO: implement
+
+        currentLevel = level;
     }
 }

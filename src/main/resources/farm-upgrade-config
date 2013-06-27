@@ -1,0 +1,24 @@
+# farm upgrade config
+
+name: 'Farm Upgrades'
+description: 'Possible upgrades for ressource farms'
+
+upgrades:
+  1:
+    name: FARM_RESTORE_FREQUENCY
+    friendly-name: 'Regenerations-Verkürzung'
+    description: 'Verkürzt die Zeit bis eine Farm regerneriert wird pro Level um 10%'
+    max-level: 5
+
+    config:
+      # cooldown between two level updates (in seconds)
+      level-cooldown: 259200 # 3 days
+  2:
+    name: FARM_EARNINGS_LEVEL
+    friendly-name: 'Nutzungs-Einkommen'
+    description: 'Steigert das Einkommen bei Spielernutzung der Farm pro level um 10%'
+    max-level: 3
+
+    config:
+      # cooldown between two level updates (in seconds)
+      level-cooldown: 604800 # 7 days
