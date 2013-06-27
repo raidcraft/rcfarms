@@ -1,0 +1,23 @@
+settings:
+  entity-metakeys:
+    - 'FARM_GUARD'
+  npc-name: 'Farmverwalter'
+  npc-equipment:
+    hand: PAPER
+    chestplate: CHAINMAIL_CHESTPLATE
+    leggings: LEATHER_LEGGINGS
+    boots: LEATHER_BOOTS
+
+stages:
+  start:
+    actions:
+      A:
+        type: FIND_FARM
+        args:
+          onfailure: destroy
+
+  destroy:
+    actions:
+      A:
+        type: NPC_DESTROY
+    text: 'Ich stehe hier falsch!'

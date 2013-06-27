@@ -70,6 +70,9 @@ public class RCFarmsPlugin extends BasePlugin {
         @Setting("farm-region-prefix")
         public String farmPrefix = "itemfarm_";
 
+        @Setting("max-farm-per-player")
+        public int playerMaxFarmCount = 3;
+
         public LocalConfiguration(RCFarmsPlugin plugin) {
 
             super(plugin, "config.yml");
