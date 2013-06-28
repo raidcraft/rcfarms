@@ -13,7 +13,7 @@ public class TFarm {
 
     @Id
     private int id;
-    private String regionId;
+    private String name;
     private String material;
     private Timestamp lastRegeneration;
     @OneToMany(cascade = CascadeType.REMOVE)
@@ -33,14 +33,14 @@ public class TFarm {
         this.id = id;
     }
 
-    public String getRegionId() {
+    public String getName() {
 
-        return regionId;
+        return name;
     }
 
-    public void setRegionId(String regionId) {
+    public void setName(String name) {
 
-        this.regionId = regionId;
+        this.name = name;
     }
 
     public String getMaterial() {

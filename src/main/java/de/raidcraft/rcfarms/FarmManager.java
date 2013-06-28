@@ -37,7 +37,7 @@ public class FarmManager {
             throw new RaidCraftException("Es gibt kein Material mit dem Namen oder ID: " + materialName);
         }
 
-        if(RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().eq("regionId", farmId).findUnique() != null) {
+        if(RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().eq("name", farmId).findUnique() != null) {
             throw new RaidCraftException("Es gibt bereits eine Farm mit diesem Namen");
         }
 
@@ -65,7 +65,7 @@ public class FarmManager {
 
         TFarm tFarm = new TFarm();
         tFarm.setMaterial(material.name());
-        tFarm.setRegionId(farmId);
+        tFarm.setName(farmId);
         tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
 
@@ -79,6 +79,16 @@ public class FarmManager {
                new BlockVector(minimumPoint.getBlockX(), minimumPoint.getBlockY(), minimumPoint.getBlockZ()),
                new BlockVector(maximumPoint.getBlockX(), maximumPoint.getBlockY(), maximumPoint.getBlockZ()));
         plugin.getWorldGuard().getRegionManager(maximumPoint.getWorld()).addRegion(region);
+    }
+
+    public void deleteFarm(String farmId) throws RaidCraftException {
+
+        TFarm tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().eq("name", farmId).findUnique();
+        if(tFarm == null) {
+            throw new RaidCraftException("Es gibt keine Farm mit diesem Namen");
+        }
+
+        RaidCraft.getDatabase(RCFarmsPlugin.class).delete(tFarm);
     }
 
     public double getFarmPrice(String farmId) {

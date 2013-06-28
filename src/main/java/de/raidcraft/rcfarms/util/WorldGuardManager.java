@@ -27,6 +27,7 @@ public class WorldGuardManager {
 
     public String getFarmName(Location location) {
 
+        //TODO: use database farms
         ApplicableRegionSet regions = worldGuard.getRegionManager(location.getWorld()).getApplicableRegions(location);
         if(regions.size() == 0) {
             return null;
