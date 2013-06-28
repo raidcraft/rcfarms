@@ -1,13 +1,16 @@
 package de.raidcraft.rcfarms;
 
+import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.EmptyClipboardException;
-import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.tables.TFarm;
+import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.util.ItemUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -48,12 +51,6 @@ public class FarmManager {
             }
             File file = new File(schematicDirPath + "\\farm_" + farmId + "_original.schematic");
             MCEditSchematicFormat.MCEDIT.save(plugin.getWorldEdit().getSession(player).getClipboard(), file);
-
-            TFarm tFarm = new TFarm();
-            tFarm.setMaterial(material.name());
-            tFarm.setRegionId(farmId);
-            tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
-            RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
         }
         catch(EmptyClipboardException e) {
             throw new RaidCraftException("Keine Auswahl selektiert!");
@@ -61,6 +58,27 @@ public class FarmManager {
         catch(IOException | DataException e) {
             throw new RaidCraftException("Fehler beim speichern der Schematic!");
         }
+
+        // save farm in database
+        Location minimumPoint = plugin.getWorldEdit().getSelection(player).getMinimumPoint();
+        Location maximumPoint = plugin.getWorldEdit().getSelection(player).getMaximumPoint();
+
+        TFarm tFarm = new TFarm();
+        tFarm.setMaterial(material.name());
+        tFarm.setRegionId(farmId);
+        tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
+        RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
+
+        TFarmLocation tFarmLocationMinimum = new TFarmLocation(minimumPoint, tFarm.getId());
+        RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarmLocationMinimum);
+        TFarmLocation tFarmLocationMaximum = new TFarmLocation(maximumPoint, tFarm.getId());
+        RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarmLocationMaximum);
+
+        // create region
+        ProtectedCuboidRegion region = new ProtectedCuboidRegion(plugin.getConfig().farmPrefix + "_" + farmId,
+               new BlockVector(minimumPoint.getBlockX(), minimumPoint.getBlockY(), minimumPoint.getBlockZ()),
+               new BlockVector(maximumPoint.getBlockX(), maximumPoint.getBlockY(), maximumPoint.getBlockZ()));
+        plugin.getWorldGuard().getRegionManager(maximumPoint.getWorld()).addRegion(region);
     }
 
     public double getFarmPrice(String farmId) {
@@ -76,11 +94,13 @@ public class FarmManager {
     public boolean isForSale(String farmId) {
 
         //TODO: implement
+        return false;
     }
 
     public String getFarmOwner(String farmId) {
 
         //TODO: implement
+        return null;
     }
 
     public void dropFarm(String farmId) {
