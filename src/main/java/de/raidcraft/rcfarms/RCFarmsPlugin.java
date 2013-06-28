@@ -1,5 +1,6 @@
 package de.raidcraft.rcfarms;
 
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.BasePlugin;
@@ -7,7 +8,9 @@ import de.raidcraft.api.config.ConfigurationBase;
 import de.raidcraft.api.config.Setting;
 import de.raidcraft.rcconversations.actions.ActionManager;
 import de.raidcraft.rcfarms.conversations.*;
-import de.raidcraft.rcfarms.tables.TFarms;
+import de.raidcraft.rcfarms.tables.TFarm;
+import de.raidcraft.rcfarms.tables.TFarmLocation;
+import de.raidcraft.rcfarms.tables.TFarmTenant;
 import de.raidcraft.rcfarms.upgrades.FarmRestoreFrequencyUpgrade;
 import de.raidcraft.rcfarms.util.WorldGuardManager;
 import de.raidcraft.rcupgrades.RCUpgradesPlugin;
@@ -23,6 +26,7 @@ public class RCFarmsPlugin extends BasePlugin {
 
     private LocalConfiguration config;
     private WorldGuardPlugin worldGuard;
+    private WorldEditPlugin worldEdit;
     private WorldGuardManager worldGuardManager;
     private FarmManager farmManager;
 
@@ -42,6 +46,7 @@ public class RCFarmsPlugin extends BasePlugin {
         reload();
 
         worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+        worldEdit = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
         worldGuardManager = new WorldGuardManager(this, worldGuard);
         farmManager = new FarmManager(this);
     }
@@ -56,7 +61,9 @@ public class RCFarmsPlugin extends BasePlugin {
     public List<Class<?>> getDatabaseClasses() {
 
         List<Class<?>> databases = new ArrayList<>();
-        databases.add(TFarms.class);
+        databases.add(TFarm.class);
+        databases.add(TFarmLocation.class);
+        databases.add(TFarmTenant.class);
         return databases;
     }
 
@@ -72,6 +79,11 @@ public class RCFarmsPlugin extends BasePlugin {
     public WorldGuardPlugin getWorldGuard() {
 
         return worldGuard;
+    }
+
+    public WorldEditPlugin getWorldEdit() {
+
+        return worldEdit;
     }
 
     public WorldGuardManager getWorldGuardManager() {
