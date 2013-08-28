@@ -44,8 +44,8 @@ public class FarmManager {
                     new BlockVector(keyPoints[0].getX(), keyPoints[0].getY(), keyPoints[0].getZ()),
                     new BlockVector(keyPoints[1].getX(), keyPoints[1].getY(), keyPoints[1].getZ()));
             region.setFlag(DefaultFlag.BUILD, StateFlag.State.ALLOW);
-            region.setFlag(DefaultFlag.BUILD, StateFlag.State.ALLOW);
-
+            region.setFlag(DefaultFlag.GREET_MESSAGE, tFarm.getWelcomeMessage());
+            region.setFlag(DefaultFlag.FAREWELL_MESSAGE, tFarm.getFarewellMessage());
             plugin.getWorldGuard().getRegionManager(world).addRegion(region);
         }
     }
