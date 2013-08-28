@@ -55,7 +55,7 @@ public class FarmCommands {
         @Command(
                 aliases = {"create"},
                 desc = "Creates a farm",
-                min = 2,
+                min = 1,
                 usage = "<farm name>"
         )
         @CommandPermissions("rcfarms.create")
@@ -74,7 +74,7 @@ public class FarmCommands {
                 farmBuilder.createFarm();
                 player.sendMessage(ChatColor.GREEN + "Du hast erfolgreich eine Farm erstellt!");
             } catch (RaidCraftException e) {
-                throw new CommandException(e.getMessage());
+                throw new CommandException("Fehler beim erstellen der Farm: " + e.getMessage());
             }
         }
 

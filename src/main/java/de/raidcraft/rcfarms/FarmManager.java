@@ -84,6 +84,6 @@ public class FarmManager {
 
     public String getRegionName(int farmId) {
 
-        return plugin.getConfig().farmPrefix + "_" + farmId;
+        return plugin.getConfig().farmPrefix + farmId;
     }
 }

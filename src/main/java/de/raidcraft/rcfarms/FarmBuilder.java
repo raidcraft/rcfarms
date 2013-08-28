@@ -71,13 +71,16 @@ public class FarmBuilder {
         // create schematic
         try {
             String schematicDirPath = plugin.getDataFolder().getCanonicalPath() + "\\schematics";
+            RaidCraft.LOGGER.info(schematicDirPath);
             File dir = new File(schematicDirPath);
             if (!dir.exists()) {
                 if (!dir.mkdir()) {
                     throw new RaidCraftException("Der Schematics Ordner konnte nicht erstellt werden!");
                 }
             }
-            File file = new File(schematicDirPath + "\\farm_" + tFarm.getId() + "_original.schematic");
+            String filePath = schematicDirPath + "\\farm_" + tFarm.getId() + "_original.schematic";
+            RaidCraft.LOGGER.info(filePath);
+            File file = new File(filePath);
             Vector origin = new Vector(minimumPoint.getBlockX(), minimumPoint.getBlockY(), minimumPoint.getBlockZ());
             Vector size = new Vector(maximumPoint.getBlockX() - minimumPoint.getBlockX(), maximumPoint.getBlockY() - minimumPoint.getBlockY(), maximumPoint.getBlockZ() - minimumPoint.getBlockZ());
             CuboidClipboard clipboard = new CuboidClipboard(size, origin);
