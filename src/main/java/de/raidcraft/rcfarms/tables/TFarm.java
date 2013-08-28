@@ -1,5 +1,8 @@
 package de.raidcraft.rcfarms.tables;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -114,5 +117,11 @@ public class TFarm {
     public void setLastRegeneration(Timestamp lastRegeneration) {
 
         this.lastRegeneration = lastRegeneration;
+    }
+
+    public World getBukkitWorld() {
+
+        TFarmLocation[] keyPoints = getKeyPoints().toArray(new TFarmLocation[getKeyPoints().size()]);
+        return Bukkit.getWorld(keyPoints[0].getWorld());
     }
 }

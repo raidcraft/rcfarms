@@ -1,9 +1,5 @@
 package de.raidcraft.rcfarms;
 
-import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.data.DataException;
-import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.tables.TFarm;
@@ -12,8 +8,6 @@ import de.raidcraft.rcfarms.tables.TMaterial;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -69,26 +63,7 @@ public class FarmBuilder {
         }
 
         // create schematic
-        try {
-            String schematicDirPath = plugin.getDataFolder().getCanonicalPath() + "/schematics";
-            RaidCraft.LOGGER.info(schematicDirPath);
-            File dir = new File(schematicDirPath);
-            if (!dir.exists()) {
-                if (!dir.mkdir()) {
-                    throw new RaidCraftException("Der Schematics Ordner konnte nicht erstellt werden!");
-                }
-            }
-            String filePath = schematicDirPath + "/farm_" + tFarm.getId() + "_original.schematic";
-            RaidCraft.LOGGER.info(filePath);
-            File file = new File(filePath);
-            Vector origin = new Vector(minimumPoint.getBlockX(), minimumPoint.getBlockY(), minimumPoint.getBlockZ());
-            Vector size = new Vector(maximumPoint.getBlockX() - minimumPoint.getBlockX(), maximumPoint.getBlockY() - minimumPoint.getBlockY(), maximumPoint.getBlockZ() - minimumPoint.getBlockZ());
-            CuboidClipboard clipboard = new CuboidClipboard(size, origin);
-            MCEditSchematicFormat.MCEDIT.save(clipboard, file);
-        }
-        catch(IOException | DataException e) {
-            throw new RaidCraftException("Fehler beim speichern der Schematic!");
-        }
+        RaidCraft.getComponent(RCFarmsPlugin.class).getSchematicManager().createSchematic(tFarm, 0);
 
         // generate region
         RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().generateRegions(minimumPoint.getWorld());

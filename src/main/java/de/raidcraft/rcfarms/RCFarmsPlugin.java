@@ -11,6 +11,7 @@ import de.raidcraft.rcfarms.conversations.*;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
+import de.raidcraft.rcfarms.util.SchematicManager;
 import de.raidcraft.rcfarms.util.WorldGuardManager;
 import org.bukkit.Bukkit;
 
@@ -27,6 +28,7 @@ public class RCFarmsPlugin extends BasePlugin {
     private WorldEditPlugin worldEdit;
     private WorldGuardManager worldGuardManager;
     private FarmManager farmManager;
+    private SchematicManager schematicManager;
 
     @Override
     public void enable() {
@@ -50,6 +52,8 @@ public class RCFarmsPlugin extends BasePlugin {
         worldEdit = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
         worldGuardManager = new WorldGuardManager(this, worldGuard);
         farmManager = new FarmManager(this);
+        schematicManager = new SchematicManager(this);
+
     }
 
     @Override
@@ -96,6 +100,11 @@ public class RCFarmsPlugin extends BasePlugin {
     public FarmManager getFarmManager() {
 
         return farmManager;
+    }
+
+    public SchematicManager getSchematicManager() {
+
+        return schematicManager;
     }
 
     public class LocalConfiguration extends ConfigurationBase<RCFarmsPlugin> {

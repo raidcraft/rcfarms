@@ -47,12 +47,21 @@ public class FarmManager {
 
     public void deleteFarm(String farmId) throws RaidCraftException {
 
+
         TFarm tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().eq("name", farmId).findUnique();
         if(tFarm == null) {
             throw new RaidCraftException("Es gibt keine Farm mit diesem Namen");
         }
 
+        // delete schematics
+        plugin.getSchematicManager().deleteSchematic(tFarm.getId());
+
+        // delete region
+        plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).removeRegion(getRegionName(tFarm.getId()));
+
+        // delete database entries
         RaidCraft.getDatabase(RCFarmsPlugin.class).delete(tFarm);
+
     }
 
     public double getFarmPrice(String farmId) {

@@ -1,5 +1,7 @@
 package de.raidcraft.rcfarms.tables;
 
+import com.sk89q.worldedit.Vector;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import javax.persistence.Entity;
@@ -94,5 +96,15 @@ public class TFarmLocation {
     public void setZ(int z) {
 
         this.z = z;
+    }
+
+    public Location getLocation() {
+
+        return new Location(Bukkit.getWorld(world), x, y, z);
+    }
+
+    public Vector getSk89qVector() {
+
+        return new Vector(x, y, z);
     }
 }
