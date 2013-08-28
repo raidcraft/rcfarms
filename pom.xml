@@ -52,10 +52,5 @@
             <artifactId>rcconversations</artifactId>
             <version>${rc.version}</version>
         </dependency>
-        <dependency>
-            <groupId>de.raidcraft</groupId>
-            <artifactId>upgrades</artifactId>
-            <version>${rc.version}</version>
-        </dependency>
     </dependencies>
 </project>
