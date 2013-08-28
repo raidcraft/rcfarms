@@ -11,7 +11,7 @@ import de.raidcraft.rcfarms.commands.FarmCommands;
 import de.raidcraft.rcfarms.conversations.*;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
-import de.raidcraft.rcfarms.tables.TFarmTenant;
+import de.raidcraft.rcfarms.tables.TMaterial;
 import de.raidcraft.rcfarms.upgrades.FarmRestoreFrequencyUpgrade;
 import de.raidcraft.rcfarms.util.WorldGuardManager;
 import de.raidcraft.rcupgrades.RCUpgradesPlugin;
@@ -67,7 +67,8 @@ public class RCFarmsPlugin extends BasePlugin {
         List<Class<?>> databases = new ArrayList<>();
         databases.add(TFarm.class);
         databases.add(TFarmLocation.class);
-        databases.add(TFarmTenant.class);
+        databases.add(TMaterial.class);
+        //databases.add(TFarmTenant.class);
         return databases;
     }
 
