@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 /**
  * @author Philip Urban
  */
+@Deprecated // not in use
 @Entity
 @Table(name = "rcfarms_tenants")
 public class TFarmTenant {

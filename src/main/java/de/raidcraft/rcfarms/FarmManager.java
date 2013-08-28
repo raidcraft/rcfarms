@@ -1,22 +1,16 @@
 package de.raidcraft.rcfarms;
 
 import com.sk89q.worldedit.BlockVector;
-import com.sk89q.worldedit.EmptyClipboardException;
-import com.sk89q.worldedit.data.DataException;
-import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
-import de.raidcraft.util.ItemUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.World;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Philip Urban
@@ -30,55 +24,25 @@ public class FarmManager {
         this.plugin = plugin;
     }
 
-    public void createFarm(Player player, String farmId, String materialName) throws RaidCraftException {
+    public void generateRegions(World world) {
 
-        Material material = ItemUtils.getItem(materialName);
-        if(material == null) {
-            throw new RaidCraftException("Es gibt kein Material mit dem Namen oder ID: " + materialName);
+        Map<String,ProtectedRegion> regions = plugin.getWorldGuard().getRegionManager(world).getRegions();
+        Set<TFarm> farms = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findSet();
+        for(TFarm tFarm : farms) {
+
+            TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
+            // check world
+            if(!keyPoints[0].getWorld().equalsIgnoreCase(world.getName())) continue;
+
+            // check if region exists
+            if(regions.containsKey(getRegionName(tFarm.getId()))) continue;
+
+            // create region
+            ProtectedCuboidRegion region = new ProtectedCuboidRegion(getRegionName(tFarm.getId()),
+                    new BlockVector(keyPoints[0].getX(), keyPoints[0].getY(), keyPoints[0].getZ()),
+                    new BlockVector(keyPoints[1].getX(), keyPoints[1].getY(), keyPoints[1].getZ()));
+            plugin.getWorldGuard().getRegionManager(world).addRegion(region);
         }
-
-        if(RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().eq("name", farmId).findUnique() != null) {
-            throw new RaidCraftException("Es gibt bereits eine Farm mit diesem Namen");
-        }
-
-        try {
-            String schematicDirPath = plugin.getDataFolder().getCanonicalPath() + "\\schematics";
-            File dir = new File(schematicDirPath);
-            if (!dir.exists()) {
-                if (!dir.mkdir()) {
-                    throw new RaidCraftException("Der Schematics Ordner konnte nicht erstellt werden!");
-                }
-            }
-            File file = new File(schematicDirPath + "\\farm_" + farmId + "_original.schematic");
-            MCEditSchematicFormat.MCEDIT.save(plugin.getWorldEdit().getSession(player).getClipboard(), file);
-        }
-        catch(EmptyClipboardException e) {
-            throw new RaidCraftException("Keine Auswahl selektiert!");
-        }
-        catch(IOException | DataException e) {
-            throw new RaidCraftException("Fehler beim speichern der Schematic!");
-        }
-
-        // save farm in database
-        Location minimumPoint = plugin.getWorldEdit().getSelection(player).getMinimumPoint();
-        Location maximumPoint = plugin.getWorldEdit().getSelection(player).getMaximumPoint();
-
-        TFarm tFarm = new TFarm();
-        tFarm.setMaterial(material.name());
-        tFarm.setName(farmId);
-        tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
-        RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
-
-        TFarmLocation tFarmLocationMinimum = new TFarmLocation(minimumPoint, tFarm.getId());
-        RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarmLocationMinimum);
-        TFarmLocation tFarmLocationMaximum = new TFarmLocation(maximumPoint, tFarm.getId());
-        RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarmLocationMaximum);
-
-        // create region
-        ProtectedCuboidRegion region = new ProtectedCuboidRegion(plugin.getConfig().farmPrefix + "_" + farmId,
-               new BlockVector(minimumPoint.getBlockX(), minimumPoint.getBlockY(), minimumPoint.getBlockZ()),
-               new BlockVector(maximumPoint.getBlockX(), maximumPoint.getBlockY(), maximumPoint.getBlockZ()));
-        plugin.getWorldGuard().getRegionManager(maximumPoint.getWorld()).addRegion(region);
     }
 
     public void deleteFarm(String farmId) throws RaidCraftException {
@@ -116,5 +80,10 @@ public class FarmManager {
     public void dropFarm(String farmId) {
 
         //TODO: implement
+    }
+
+    public String getRegionName(int farmId) {
+
+        return plugin.getConfig().farmPrefix + "_" + farmId;
     }
 }

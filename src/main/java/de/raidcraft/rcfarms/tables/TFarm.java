@@ -14,14 +14,17 @@ public class TFarm {
     @Id
     private int id;
     private String name;
-    private String material;
-    private Timestamp lastRegeneration;
+    private Timestamp creationDate;
+    private String creator;
+    private String welcomeMessage;
+    private String farewellMessage;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "farm_id")
+    private Set<TMaterial> materials;
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "farm_id")
     private Set<TFarmLocation> keyPoints;
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "farm_id")
-    private Set<TFarmTenant> tenants;
+    private Timestamp lastRegeneration;
 
     public int getId() {
 
@@ -43,24 +46,54 @@ public class TFarm {
         this.name = name;
     }
 
-    public String getMaterial() {
+    public Timestamp getCreationDate() {
 
-        return material;
+        return creationDate;
     }
 
-    public void setMaterial(String material) {
+    public void setCreationDate(Timestamp creationDate) {
 
-        this.material = material;
+        this.creationDate = creationDate;
     }
 
-    public Timestamp getLastRegeneration() {
+    public String getCreator() {
 
-        return lastRegeneration;
+        return creator;
     }
 
-    public void setLastRegeneration(Timestamp lastRegeneration) {
+    public void setCreator(String creator) {
 
-        this.lastRegeneration = lastRegeneration;
+        this.creator = creator;
+    }
+
+    public String getWelcomeMessage() {
+
+        return welcomeMessage;
+    }
+
+    public void setWelcomeMessage(String welcomeMessage) {
+
+        this.welcomeMessage = welcomeMessage;
+    }
+
+    public String getFarewellMessage() {
+
+        return farewellMessage;
+    }
+
+    public void setFarewellMessage(String farewellMessage) {
+
+        this.farewellMessage = farewellMessage;
+    }
+
+    public Set<TMaterial> getMaterials() {
+
+        return materials;
+    }
+
+    public void setMaterials(Set<TMaterial> materials) {
+
+        this.materials = materials;
     }
 
     public Set<TFarmLocation> getKeyPoints() {
@@ -73,13 +106,13 @@ public class TFarm {
         this.keyPoints = keyPoints;
     }
 
-    public Set<TFarmTenant> getTenants() {
+    public Timestamp getLastRegeneration() {
 
-        return tenants;
+        return lastRegeneration;
     }
 
-    public void setTenants(Set<TFarmTenant> tenants) {
+    public void setLastRegeneration(Timestamp lastRegeneration) {
 
-        this.tenants = tenants;
+        this.lastRegeneration = lastRegeneration;
     }
 }
