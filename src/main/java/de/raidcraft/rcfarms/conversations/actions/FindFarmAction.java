@@ -22,7 +22,7 @@ public class FindFarmAction extends AbstractAction {
 
         RCFarmsPlugin plugin = RaidCraft.getComponent(RCFarmsPlugin.class);
 
-        String farmId = plugin.getWorldGuardManager().getFarmName(conversation.getHost().getLocation());
+        String farmId = plugin.getWorldGuardManager().getFarmName(conversation.getConversationHost().getLocation());
 
         if(farmId == null) {
             if(failure != null) {
