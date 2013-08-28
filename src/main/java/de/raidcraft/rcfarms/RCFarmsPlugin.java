@@ -7,7 +7,8 @@ import de.raidcraft.api.config.ConfigurationBase;
 import de.raidcraft.api.config.Setting;
 import de.raidcraft.rcconversations.actions.ActionManager;
 import de.raidcraft.rcfarms.commands.FarmCommands;
-import de.raidcraft.rcfarms.conversations.*;
+import de.raidcraft.rcfarms.conversations.actions.*;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.AddFarmMaterialAction;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
@@ -39,6 +40,8 @@ public class RCFarmsPlugin extends BasePlugin {
         ActionManager.registerAction(new BuyFarmAction());
         ActionManager.registerAction(new IsForSaleAction());
         ActionManager.registerAction(new IsFarmOwnerAction());
+        // wizard actions
+        ActionManager.registerAction(new AddFarmMaterialAction());
 
         // register commands
         registerCommands(FarmCommands.class);
@@ -122,7 +125,7 @@ public class RCFarmsPlugin extends BasePlugin {
         public double pricePerBlock = 0.1;
 
         @Setting("creating-conversation-name")
-        public String creatingConversationName = "farm_create";
+        public String creatingConversationName = "farm_create_wizard";
 
         public LocalConfiguration(RCFarmsPlugin plugin) {
 
