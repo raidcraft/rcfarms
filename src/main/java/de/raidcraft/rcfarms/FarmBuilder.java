@@ -57,14 +57,14 @@ public class FarmBuilder {
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
 
         // save locations
-        TFarmLocation tFarmLocationMinimum = new TFarmLocation(minimumPoint, tFarm.getId());
+        TFarmLocation tFarmLocationMinimum = new TFarmLocation(minimumPoint, tFarm);
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarmLocationMinimum);
-        TFarmLocation tFarmLocationMaximum = new TFarmLocation(maximumPoint, tFarm.getId());
+        TFarmLocation tFarmLocationMaximum = new TFarmLocation(maximumPoint, tFarm);
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarmLocationMaximum);
 
         // save materials
         for(Material material : materials) {
-            TMaterial tMaterial = new TMaterial(material.name(), tFarm.getId());
+            TMaterial tMaterial = new TMaterial(material.name(), tFarm);
             RaidCraft.getDatabase(RCFarmsPlugin.class).save(tMaterial);
         }
 

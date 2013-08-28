@@ -14,18 +14,18 @@ public class TMaterial {
 
     @Id
     private int id;
-    private String name;
     @ManyToOne
-    private int farmId;
+    private TFarm farm;
+    private String name;
 
     public TMaterial() {
         // required
     }
 
-    public TMaterial(String name, int farmId) {
+    public TMaterial(String name, TFarm farm) {
 
         this.name = name;
-        this.farmId = farmId;
+        this.farm = farm;
     }
 
     public int getId() {
@@ -48,13 +48,13 @@ public class TMaterial {
         this.name = name;
     }
 
-    public int getFarmId() {
+    public TFarm getFarm() {
 
-        return farmId;
+        return farm;
     }
 
-    public void setFarmId(int farmId) {
+    public void setFarm(TFarm farm) {
 
-        this.farmId = farmId;
+        this.farm = farm;
     }
 }

@@ -17,7 +17,7 @@ public class TFarmLocation {
     @Id
     private int id;
     @ManyToOne
-    private int farmId;
+    private TFarm farm;
     private String world;
     private int x;
     private int y;
@@ -27,9 +27,9 @@ public class TFarmLocation {
         // required
     }
 
-    public TFarmLocation(Location location, int farmId) {
+    public TFarmLocation(Location location, TFarm farm) {
 
-        this.farmId = farmId;
+        this.farm = farm;
         this.world = location.getWorld().getName();
         this.x = location.getBlockX();
         this.y = location.getBlockY();
@@ -46,14 +46,14 @@ public class TFarmLocation {
         this.id = id;
     }
 
-    public int getFarmId() {
+    public TFarm getFarm() {
 
-        return farmId;
+        return farm;
     }
 
-    public void setFarmId(int farmId) {
+    public void setFarm(TFarm farm) {
 
-        this.farmId = farmId;
+        this.farm = farm;
     }
 
     public String getWorld() {
