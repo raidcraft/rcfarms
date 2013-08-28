@@ -18,6 +18,10 @@ public class TMaterial {
     @ManyToOne
     private int farmId;
 
+    public TMaterial() {
+        // required
+    }
+
     public TMaterial(String name, int farmId) {
 
         this.name = name;

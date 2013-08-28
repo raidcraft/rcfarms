@@ -23,6 +23,10 @@ public class TFarmLocation {
     private int y;
     private int z;
 
+    public TFarmLocation() {
+        // required
+    }
+
     public TFarmLocation(Location location, int farmId) {
 
         this.farmId = farmId;
