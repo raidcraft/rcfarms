@@ -82,14 +82,14 @@ public class FarmCommands {
                 aliases = {"delete"},
                 desc = "Delete a farm",
                 min = 1,
-                usage = "<farm name>"
+                usage = "<farm id>"
         )
         @CommandPermissions("rcfarms.delete")
         public void delete(CommandContext args, CommandSender sender) throws CommandException {
 
             try {
                 plugin.getFarmManager().deleteFarm(args.getString(0));
-                sender.sendMessage(ChatColor.GREEN + "Du hast erfolgreich die Farm " + args.getString(0) + " gelöscht!");
+                sender.sendMessage(ChatColor.GREEN + "Du hast erfolgreich die Farm mit der ID " + args.getString(0) + " gelöscht!");
             } catch (RaidCraftException e) {
                 throw new CommandException(e.getMessage());
             }

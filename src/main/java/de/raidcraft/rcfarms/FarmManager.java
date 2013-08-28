@@ -48,9 +48,9 @@ public class FarmManager {
     public void deleteFarm(String farmId) throws RaidCraftException {
 
 
-        TFarm tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().eq("name", farmId).findUnique();
+        TFarm tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().eq("id", farmId).findUnique();
         if(tFarm == null) {
-            throw new RaidCraftException("Es gibt keine Farm mit diesem Namen");
+            throw new RaidCraftException("Es gibt keine Farm mit dieser Id");
         }
 
         // delete schematics
