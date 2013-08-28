@@ -1,11 +1,12 @@
 package de.raidcraft.rcfarms.commands;
 
 import com.sk89q.minecraft.util.commands.*;
+import com.sk89q.worldedit.bukkit.selections.Selection;
+import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
-import de.raidcraft.rcfarms.FarmBuilder;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
+import de.raidcraft.rcfarms.conversations.host.FarmHost;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -54,9 +55,7 @@ public class FarmCommands {
 
         @Command(
                 aliases = {"create"},
-                desc = "Creates a farm",
-                min = 1,
-                usage = "<farm name>"
+                desc = "Creates a farm"
         )
         @CommandPermissions("rcfarms.create")
         public void create(CommandContext args, CommandSender sender) throws CommandException {
@@ -64,18 +63,12 @@ public class FarmCommands {
             if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
             Player player = (Player)sender;
 
-            try {
-                FarmBuilder farmBuilder = new FarmBuilder();
-                farmBuilder.addMaterial(Material.WOOD);
-                farmBuilder.setCreator(player.getName());
-                farmBuilder.setMinimumPoint(plugin.getWorldEdit().getSelection(player).getMinimumPoint());
-                farmBuilder.setMaximumPoint(plugin.getWorldEdit().getSelection(player).getMaximumPoint());
-                farmBuilder.setName(args.getString(0));
-                farmBuilder.createFarm();
-                player.sendMessage(ChatColor.GREEN + "Du hast erfolgreich eine Farm erstellt!");
-            } catch (RaidCraftException e) {
-                throw new CommandException("Fehler beim erstellen der Farm: " + e.getMessage());
+            Selection selection = plugin.getWorldEdit().getSelection(player);
+            if(selection.getMinimumPoint() == null || selection.getMaximumPoint() == null) {
+                throw new CommandException("Kein Bereich markiert!");
             }
+
+            RaidCraft.getConversationProvider().triggerConversation(player, plugin.getConfig().creatingConversationName, new FarmHost(player.getLocation()));
         }
 
         @Command(

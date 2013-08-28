@@ -121,6 +121,9 @@ public class RCFarmsPlugin extends BasePlugin {
         @Setting("farm-price-per-block")
         public double pricePerBlock = 0.1;
 
+        @Setting("creating-conversation-name")
+        public String creatingConversationName = "farm_create";
+
         public LocalConfiguration(RCFarmsPlugin plugin) {
 
             super(plugin, "config.yml");
