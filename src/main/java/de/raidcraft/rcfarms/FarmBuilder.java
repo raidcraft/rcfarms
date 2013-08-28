@@ -63,10 +63,13 @@ public class FarmBuilder {
         }
 
         // create schematic
-        RaidCraft.getComponent(RCFarmsPlugin.class).getSchematicManager().createSchematic(tFarm, 0);
+        plugin.getSchematicManager().createSchematic(tFarm, 0);
 
         // generate region
-        RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().generateRegions(minimumPoint.getWorld());
+        plugin.getFarmManager().generateRegions(minimumPoint.getWorld());
+
+        // create dynmap marker
+        plugin.getDynmapManager().addFarmMarker(tFarm);
     }
 
     public FarmBuilder setName(String name) {

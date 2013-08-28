@@ -1,6 +1,8 @@
 package de.raidcraft.rcfarms;
 
 import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import de.raidcraft.RaidCraft;
@@ -41,6 +43,9 @@ public class FarmManager {
             ProtectedCuboidRegion region = new ProtectedCuboidRegion(getRegionName(tFarm.getId()),
                     new BlockVector(keyPoints[0].getX(), keyPoints[0].getY(), keyPoints[0].getZ()),
                     new BlockVector(keyPoints[1].getX(), keyPoints[1].getY(), keyPoints[1].getZ()));
+            region.setFlag(DefaultFlag.BUILD, StateFlag.State.ALLOW);
+            region.setFlag(DefaultFlag.BUILD, StateFlag.State.ALLOW);
+
             plugin.getWorldGuard().getRegionManager(world).addRegion(region);
         }
     }
@@ -62,6 +67,8 @@ public class FarmManager {
         // delete database entries
         RaidCraft.getDatabase(RCFarmsPlugin.class).delete(tFarm);
 
+        // delete dynmap marker
+        plugin.getDynmapManager().removeMarker(tFarm);
     }
 
     public double getFarmPrice(String farmId) {

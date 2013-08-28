@@ -12,6 +12,7 @@ import de.raidcraft.rcfarms.conversations.actions.wizzard.AddFarmMaterialAction;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
+import de.raidcraft.rcfarms.util.DynmapManager;
 import de.raidcraft.rcfarms.util.SchematicManager;
 import de.raidcraft.rcfarms.util.WorldGuardManager;
 import org.bukkit.Bukkit;
@@ -30,6 +31,7 @@ public class RCFarmsPlugin extends BasePlugin {
     private WorldGuardManager worldGuardManager;
     private FarmManager farmManager;
     private SchematicManager schematicManager;
+    private DynmapManager dynmapManager;
 
     @Override
     public void enable() {
@@ -49,14 +51,17 @@ public class RCFarmsPlugin extends BasePlugin {
         // register upgrades
         //RaidCraft.getComponent(RCUpgradesPlugin.class).getUpgradeManager().registerUpgrade(FarmRestoreFrequencyUpgrade.class);
 
-        reload();
+        reload(); // RELOAD BEFORE MANAGERS GET INITIALIZED!!!
 
         worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
         worldEdit = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
         worldGuardManager = new WorldGuardManager(this, worldGuard);
         farmManager = new FarmManager(this);
         schematicManager = new SchematicManager(this);
+        dynmapManager = new DynmapManager();
 
+        // regenerate regions at startup (if some are deleted)
+        farmManager.generateRegions(Bukkit.getWorld(config.world));
     }
 
     @Override
@@ -108,6 +113,11 @@ public class RCFarmsPlugin extends BasePlugin {
     public SchematicManager getSchematicManager() {
 
         return schematicManager;
+    }
+
+    public DynmapManager getDynmapManager() {
+
+        return dynmapManager;
     }
 
     public class LocalConfiguration extends ConfigurationBase<RCFarmsPlugin> {
