@@ -68,11 +68,7 @@ public class FarmCommands {
                 throw new CommandException("Kein Bereich markiert!");
             }
 
-            boolean started = RaidCraft.getConversationProvider().triggerConversation(player, plugin.getConfig().creatingConversationName, new FarmHost(player.getLocation()));
-            if(!started) {
-                RaidCraft.LOGGER.warning("RCFarms conversations konnte nicht gestartet werden!");
-                throw new CommandException("Ein Fehler ist aufgetreten! Bitte melden!");
-            }
+            RaidCraft.getConversationProvider().triggerConversation(player, plugin.getConfig().creatingConversationName, new FarmHost(player.getLocation()));
         }
 
         @Command(
