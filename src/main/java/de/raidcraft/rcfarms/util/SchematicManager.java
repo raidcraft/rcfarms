@@ -5,7 +5,6 @@ import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
-import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.tables.TFarm;
@@ -30,17 +29,13 @@ public class SchematicManager {
     }
 
     public void createSchematic(TFarm tFarm, int upgradeLevel) throws RaidCraftException {
-        RaidCraft.LOGGER.info("DS -1");
+
         TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
 
         try {
-            RaidCraft.LOGGER.info("DS 0");
             World world = tFarm.getBukkitWorld();
-            RaidCraft.LOGGER.info("DS 1: " + world.getName());
             String schematicName = getSchematicName(tFarm.getId(), upgradeLevel);
-            RaidCraft.LOGGER.info("DS 2: " + schematicName);
             String filePath = getSchematicDirPath(world) + "/" + schematicName;
-            RaidCraft.LOGGER.info(filePath);
             File file = new File(filePath);
             Vector origin = keyPoints[0].getSk89qVector();
             Vector size = keyPoints[1].getSk89qVector().subtract(keyPoints[0].getSk89qVector());
@@ -74,7 +69,6 @@ public class SchematicManager {
 
         try {
             String path = plugin.getDataFolder().getCanonicalPath() + "/schematics/" + world.getName();
-            RaidCraft.LOGGER.info("DEBUG: S0: " + path);
             return path;
         }
         catch(IOException e) {
