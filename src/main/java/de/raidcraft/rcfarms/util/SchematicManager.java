@@ -34,7 +34,12 @@ public class SchematicManager {
         TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
 
         try {
-            String filePath = getSchematicDirPath(tFarm.getBukkitWorld()) + "/" + getSchematicName(tFarm.getId(), upgradeLevel);
+            RaidCraft.LOGGER.info("DS 0");
+            World world = tFarm.getBukkitWorld();
+            RaidCraft.LOGGER.info("DS 1: " + world.getName());
+            String schematicName = getSchematicName(tFarm.getId(), upgradeLevel);
+            RaidCraft.LOGGER.info("DS 2: " + schematicName);
+            String filePath = getSchematicDirPath(world) + "/" + schematicName;
             RaidCraft.LOGGER.info(filePath);
             File file = new File(filePath);
             Vector origin = keyPoints[0].getSk89qVector();
