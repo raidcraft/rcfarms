@@ -85,6 +85,7 @@ public class CreateFarmAction extends AbstractAction {
             printError(conversation, e.getMessage());
             return;
         }
+        conversation.getPlayer().sendMessage(ChatColor.GREEN + "Die Farm '" + farmName + "' wurde erfolgreich erstellt!");
     }
 
     private void printError(Conversation conversation, String msg) {
