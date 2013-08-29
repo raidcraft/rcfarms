@@ -59,8 +59,10 @@ public class FarmBuilder {
 
         // save locations
         TFarmLocation tFarmLocationMinimum = new TFarmLocation(minimumPoint, tFarm);
+        tFarm.addKeyPoint(tFarmLocationMinimum); // required to work with existing tFarm!!!
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarmLocationMinimum);
         TFarmLocation tFarmLocationMaximum = new TFarmLocation(maximumPoint, tFarm);
+        tFarm.addKeyPoint(tFarmLocationMaximum); // required to work with existing tFarm!!!
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarmLocationMaximum);
 
         // save materials

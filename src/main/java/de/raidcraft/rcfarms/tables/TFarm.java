@@ -5,6 +5,7 @@ import org.bukkit.World;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -107,6 +108,14 @@ public class TFarm {
     public void setKeyPoints(Set<TFarmLocation> keyPoints) {
 
         this.keyPoints = keyPoints;
+    }
+
+    public void addKeyPoint(TFarmLocation keyPoint) {
+
+        if(keyPoints == null) {
+            keyPoints = new HashSet<>();
+        }
+        keyPoints.add(keyPoint);
     }
 
     public Timestamp getLastRegeneration() {
