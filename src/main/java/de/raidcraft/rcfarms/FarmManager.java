@@ -59,7 +59,7 @@ public class FarmManager {
         }
 
         // delete schematics
-        plugin.getSchematicManager().deleteSchematic(tFarm.getId());
+        plugin.getSchematicManager().deleteSchematic(tFarm);
 
         // delete region
         plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).removeRegion(getRegionName(tFarm.getId()));
