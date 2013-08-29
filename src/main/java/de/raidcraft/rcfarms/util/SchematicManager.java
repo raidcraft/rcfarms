@@ -9,6 +9,7 @@ import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
+import org.bukkit.World;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class SchematicManager {
         TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
 
         try {
-            String filePath = getSchematicDirPath() + "/" + getSchematicName(tFarm.getId(), upgradeLevel);
+            String filePath = getSchematicDirPath(tFarm.getBukkitWorld()) + "/" + getSchematicName(tFarm.getId(), upgradeLevel);
             File file = new File(filePath);
             Vector origin = keyPoints[0].getSk89qVector();
             Vector size = keyPoints[1].getSk89qVector().subtract(keyPoints[0].getSk89qVector());
@@ -44,10 +45,10 @@ public class SchematicManager {
         }
     }
 
-    public void deleteSchematic(int farmId) throws RaidCraftException {
+    public void deleteSchematic(TFarm tFarm) throws RaidCraftException {
 
-        final File folder = getSchematicDir();
-        final File[] files = folder.listFiles(new PatternFilenameFilter(SCHEMATIC_PREFIX + farmId + "*\\.schematic"));
+        final File folder = getSchematicDir(tFarm.getBukkitWorld());
+        final File[] files = folder.listFiles(new PatternFilenameFilter(SCHEMATIC_PREFIX + tFarm.getId() + "*\\.schematic"));
 
         // loop through the files
         for ( final File file : files ) {
@@ -62,20 +63,20 @@ public class SchematicManager {
         return SCHEMATIC_PREFIX + farmId + "_level_" + upgradeLevel + ".schematic";
     }
 
-    public String getSchematicDirPath() throws RaidCraftException{
+    public String getSchematicDirPath(World world) throws RaidCraftException{
 
         try {
-            return plugin.getDataFolder().getCanonicalPath() + "/schematics";
+            return plugin.getDataFolder().getCanonicalPath() + "/schematics/" + world.getName();
         }
         catch(IOException e) {
             throw new RaidCraftException("Schematic Ordner konnte nicht geöffnet werden!");
         }
     }
 
-    public File getSchematicDir() throws RaidCraftException {
+    public File getSchematicDir(World world) throws RaidCraftException {
 
         File dir;
-        dir = new File(getSchematicDirPath());
+        dir = new File(getSchematicDirPath(world));
         if (!dir.exists()) {
             if (!dir.mkdir()) {
                 throw new RaidCraftException("Der Schematics Ordner konnte nicht erstellt werden!");
