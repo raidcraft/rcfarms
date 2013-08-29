@@ -64,7 +64,7 @@ public class FarmCommands {
             Player player = (Player)sender;
 
             Selection selection = plugin.getWorldEdit().getSelection(player);
-            if(selection.getMinimumPoint() == null || selection.getMaximumPoint() == null) {
+            if(selection == null || selection.getMinimumPoint() == null || selection.getMaximumPoint() == null) {
                 throw new CommandException("Kein Bereich markiert!");
             }
 
