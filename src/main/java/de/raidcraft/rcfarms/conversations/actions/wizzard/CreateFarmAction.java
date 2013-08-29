@@ -77,6 +77,7 @@ public class CreateFarmAction extends AbstractAction {
         farmBuilder.setCreator(conversation.getPlayer().getName());
         farmBuilder.setWelcomeMessage(farmWelcome);
         farmBuilder.setFarewellMessage(farmFarewell);
+        farmBuilder.addMaterials(materials);
         farmBuilder.setMinimumPoint(selection.getMinimumPoint());
         farmBuilder.setMaximumPoint(selection.getMaximumPoint());
         try {

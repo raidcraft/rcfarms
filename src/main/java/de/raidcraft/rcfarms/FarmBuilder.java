@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,6 +39,11 @@ public class FarmBuilder {
         // check area
         if(minimumPoint == null || maximumPoint == null) {
             throw new RaidCraftException("Eckpunkte ungültig!");
+        }
+
+        // check material
+        if(materials.isEmpty()) {
+            throw new RaidCraftException("Keine Materialien zugewiesen!");
         }
 
         // save farm
@@ -99,6 +105,12 @@ public class FarmBuilder {
     public FarmBuilder addMaterial(Material material) {
 
         this.materials.add(material);
+        return this;
+    }
+
+    public FarmBuilder addMaterials(Collection<Material> materials) {
+
+        this.materials.addAll(materials);
         return this;
     }
 
