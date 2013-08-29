@@ -68,11 +68,17 @@ public class FarmBuilder {
             RaidCraft.getDatabase(RCFarmsPlugin.class).save(tMaterial);
         }
 
+        RaidCraft.LOGGER.info("DEBUG 0");
+
         // create schematic
         plugin.getSchematicManager().createSchematic(tFarm, 0);
 
+        RaidCraft.LOGGER.info("DEBUG 1");
+
         // generate region
         plugin.getFarmManager().generateRegions(minimumPoint.getWorld());
+
+        RaidCraft.LOGGER.info("DEBUG 2");
 
         // create dynmap marker
         plugin.getDynmapManager().addFarmMarker(tFarm);
