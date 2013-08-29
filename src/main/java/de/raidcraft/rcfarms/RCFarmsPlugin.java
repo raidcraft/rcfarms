@@ -9,6 +9,7 @@ import de.raidcraft.rcconversations.actions.ActionManager;
 import de.raidcraft.rcfarms.commands.FarmCommands;
 import de.raidcraft.rcfarms.conversations.actions.*;
 import de.raidcraft.rcfarms.conversations.actions.wizzard.AddFarmMaterialAction;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.CreateFarmAction;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
@@ -44,6 +45,7 @@ public class RCFarmsPlugin extends BasePlugin {
         ActionManager.registerAction(new IsFarmOwnerAction());
         // wizard actions
         ActionManager.registerAction(new AddFarmMaterialAction());
+        ActionManager.registerAction(new CreateFarmAction());
 
         // register commands
         registerCommands(FarmCommands.class);
