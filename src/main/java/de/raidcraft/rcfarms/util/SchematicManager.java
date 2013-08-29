@@ -30,7 +30,7 @@ public class SchematicManager {
     }
 
     public void createSchematic(TFarm tFarm, int upgradeLevel) throws RaidCraftException {
-
+        RaidCraft.LOGGER.info("DS -1");
         TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
 
         try {

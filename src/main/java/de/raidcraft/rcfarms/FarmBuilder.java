@@ -5,6 +5,7 @@ import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
+import de.raidcraft.rcfarms.util.SchematicManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -71,7 +72,9 @@ public class FarmBuilder {
         RaidCraft.LOGGER.info("DEBUG 0");
 
         // create schematic
-        plugin.getSchematicManager().createSchematic(tFarm, 0);
+        SchematicManager schematicManager = plugin.getSchematicManager();
+        RaidCraft.LOGGER.info("DEBUG 0.5: " + schematicManager);
+        schematicManager.createSchematic(tFarm, 0);
 
         RaidCraft.LOGGER.info("DEBUG 1");
 
