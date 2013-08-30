@@ -95,7 +95,7 @@ public class FarmManager {
         }
     }
 
-    public void checkForRegeneration(TFarm tFarm) {
+    public boolean checkForRegeneration(TFarm tFarm) {
 
         for(TMaterial tMaterial : tFarm.getMaterials()) {
             Material material = ItemUtils.getItem(tMaterial.getName());
@@ -106,9 +106,10 @@ public class FarmManager {
             if(restrictedItem.getRegenerationTime() < (tFarm.getLastRegeneration().getTime() - System.currentTimeMillis()) / 1000) {
                 RaidCraft.LOGGER.info("Regenerate farm '" + tFarm.getName() + "' with ID '" + tFarm.getId() + "'");
                 regenerateFarm(tFarm);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     public double getFarmPrice(String farmId) {

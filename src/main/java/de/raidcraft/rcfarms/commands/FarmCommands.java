@@ -6,6 +6,7 @@ import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.conversations.host.FarmHost;
+import de.raidcraft.rcfarms.tables.TFarm;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -86,6 +87,25 @@ public class FarmCommands {
             } catch (RaidCraftException e) {
                 throw new CommandException(e.getMessage());
             }
+        }
+
+        @Command(
+                aliases = {"check"},
+                desc = "Check all farms for regeneration"
+        )
+        @CommandPermissions("rcfarms.delete")
+        public void check(CommandContext args, CommandSender sender) throws CommandException {
+
+            sender.sendMessage(ChatColor.GREEN + "Start regeneration check...");
+            int regenerated = 0;
+            int farmCount = 0;
+            for(TFarm tFarm : RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findList()) {
+                if(plugin.getFarmManager().checkForRegeneration(tFarm)) {
+                    regenerated++;
+                }
+                farmCount++;
+            }
+            sender.sendMessage(ChatColor.GREEN + "Checked all farms! " + regenerated + "/" + farmCount + " regenerated");
         }
     }
 }
