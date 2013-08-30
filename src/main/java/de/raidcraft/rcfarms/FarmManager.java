@@ -9,6 +9,11 @@ import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
+import de.raidcraft.rcfarms.tables.TMaterial;
+import de.raidcraft.util.ItemUtils;
+import de.raidcraft.worldcontrol.WorldControlPlugin;
+import de.raidcraft.worldcontrol.restricteditem.RestrictedItem;
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import java.util.Map;
@@ -92,7 +97,14 @@ public class FarmManager {
 
     public void checkForRegeneration(TFarm tFarm) {
 
+        for(TMaterial tMaterial : tFarm.getMaterials()) {
+            Material material = ItemUtils.getItem(tMaterial.getName());
+            if(material == null) continue;
 
+            RestrictedItem restrictedItem = RaidCraft.getComponent(WorldControlPlugin.class)
+                    .getRestrictedItemManager().getRestrictedItem(material);
+            if(restrictedItem.)
+        }
     }
 
     public double getFarmPrice(String farmId) {
