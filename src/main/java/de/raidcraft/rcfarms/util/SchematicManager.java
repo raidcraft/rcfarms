@@ -1,8 +1,8 @@
 package de.raidcraft.rcfarms.util;
 
 import com.google.common.io.PatternFilenameFilter;
-import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.*;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import de.raidcraft.api.RaidCraftException;
@@ -33,9 +33,8 @@ public class SchematicManager {
         TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
 
         try {
-            World world = tFarm.getBukkitWorld();
             String schematicName = getSchematicName(tFarm.getId(), upgradeLevel);
-            String filePath = getSchematicDirPath(world) + "/" + schematicName;
+            String filePath = getSchematicDirPath(tFarm.getBukkitWorld()) + "/" + schematicName;
             File file = new File(filePath);
             Vector origin = keyPoints[0].getSk89qVector();
             Vector size = keyPoints[1].getSk89qVector().subtract(keyPoints[0].getSk89qVector());
@@ -44,6 +43,22 @@ public class SchematicManager {
         }
         catch(IOException | DataException e) {
             throw new RaidCraftException("Fehler beim speichern der Schematic!");
+        }
+    }
+
+    public void pasteSchematic(TFarm tFarm, int upgradeLevel) throws RaidCraftException {
+
+        String schematicName = getSchematicName(tFarm.getId(), upgradeLevel);
+        String filePath = getSchematicDirPath(tFarm.getBukkitWorld()) + "/" + schematicName;
+        File file = new File(filePath);
+        try {
+            CuboidClipboard clipboard = MCEditSchematicFormat.MCEDIT.load(file);
+            clipboard.paste(new EditSession(new BukkitWorld(tFarm.getBukkitWorld()), 1000000), clipboard.getOrigin(), false);
+        } catch (IOException | DataException e) {
+            throw new RaidCraftException("Fehler beim laden der Schematic!");
+        }
+        catch (MaxChangedBlocksException e) {
+            throw new RaidCraftException("Fehler beim pasten der Schematic! (Zu viele Blöcke)");
         }
     }
 

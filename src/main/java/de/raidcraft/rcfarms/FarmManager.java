@@ -71,6 +71,30 @@ public class FarmManager {
         plugin.getDynmapManager().removeMarker(tFarm);
     }
 
+    public void regenerateFarm(String farmId) {
+
+        TFarm tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class, farmId);
+        regenerateFarm(tFarm);
+    }
+
+    public void regenerateFarm(TFarm tFarm) {
+
+        if(tFarm == null) return;
+
+        int upgradeLevel = 0;
+        //TODO get upgrade level
+        try {
+            plugin.getSchematicManager().pasteSchematic(tFarm, upgradeLevel);
+        } catch (RaidCraftException e) {
+            RaidCraft.LOGGER.warning(e.getMessage());
+        }
+    }
+
+    public void checkForRegeneration(TFarm tFarm) {
+
+
+    }
+
     public double getFarmPrice(String farmId) {
 
         return plugin.getConfig().pricePerBlock * plugin.getWorldGuardManager().getFarmVolume(farmId);
