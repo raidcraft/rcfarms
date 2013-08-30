@@ -1,11 +1,13 @@
 package de.raidcraft.rcfarms.util;
 
 import com.google.common.io.PatternFilenameFilter;
-import com.sk89q.worldedit.*;
+import com.sk89q.worldedit.CuboidClipboard;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.MaxChangedBlocksException;
+import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
-import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.tables.TFarm;
@@ -31,13 +33,12 @@ public class SchematicManager {
 
     public void createSchematic(TFarm tFarm, int upgradeLevel) throws RaidCraftException {
 
-        RaidCraft.LOGGER.info("S0");
         TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
-        RaidCraft.LOGGER.info("S1");
+
         try {
             String schematicName = getSchematicName(tFarm.getId(), upgradeLevel);
             String filePath = getSchematicDirPath(tFarm.getBukkitWorld()) + "/" + schematicName;
-            RaidCraft.LOGGER.info("S2" + filePath);
+
             File file = new File(filePath);
             Vector origin = keyPoints[0].getSk89qVector();
             Vector size = keyPoints[1].getSk89qVector().subtract(keyPoints[0].getSk89qVector());
