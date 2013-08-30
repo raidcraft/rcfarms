@@ -103,6 +103,7 @@ public class FarmManager {
 
             RestrictedItem restrictedItem = RaidCraft.getComponent(WorldControlPlugin.class)
                     .getRestrictedItemManager().getRestrictedItem(material);
+            if(restrictedItem == null) continue;
             if(restrictedItem.getRegenerationTime() < (tFarm.getLastRegeneration().getTime() - System.currentTimeMillis()) / 1000) {
                 RaidCraft.LOGGER.info("Regenerate farm '" + tFarm.getName() + "' with ID '" + tFarm.getId() + "'");
                 regenerateFarm(tFarm);
