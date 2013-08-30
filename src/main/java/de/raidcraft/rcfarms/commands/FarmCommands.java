@@ -93,7 +93,7 @@ public class FarmCommands {
                 aliases = {"check"},
                 desc = "Check all farms for regeneration"
         )
-        @CommandPermissions("rcfarms.delete")
+        @CommandPermissions("rcfarms.check")
         public void check(CommandContext args, CommandSender sender) throws CommandException {
 
             sender.sendMessage(ChatColor.GREEN + "Start regeneration check...");
