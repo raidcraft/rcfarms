@@ -2,6 +2,7 @@ package de.raidcraft.rcfarms;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import de.raidcraft.RaidCraft;
 import de.raidcraft.api.BasePlugin;
 import de.raidcraft.api.config.ConfigurationBase;
 import de.raidcraft.api.config.Setting;
@@ -66,6 +67,16 @@ public class RCFarmsPlugin extends BasePlugin {
 
         // regenerate regions at startup (if some are deleted)
         farmManager.generateRegions(Bukkit.getWorld(config.world));
+
+        // check each hour all farms for regeneration
+        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+            @Override
+            public void run() {
+                for(TFarm tFarm : RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findList()) {
+                    farmManager.checkForRegeneration(tFarm);
+                }
+            }
+        }, 0, 60 * 60 * 20);
     }
 
     @Override
