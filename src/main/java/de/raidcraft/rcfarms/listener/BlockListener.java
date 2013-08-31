@@ -38,7 +38,6 @@ public class BlockListener implements Listener {
         String prefix = plugin.getConfig().farmPrefix;
         try {
             String farmIdString = farmRegion.substring(prefix.length(), farmRegion.length());
-            RaidCraft.LOGGER.info("farmIdString: " + farmIdString);
             farmId = Integer.valueOf(farmIdString);
         }
         catch(NumberFormatException e) {
