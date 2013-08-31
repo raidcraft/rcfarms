@@ -42,7 +42,7 @@ public class SchematicManager {
             File file = new File(filePath);
             Vector min = keyPoints[0].getSk89qVector();
             Vector max = keyPoints[1].getSk89qVector();
-            CuboidClipboard clipboard = new CuboidClipboard(max.subtract(min).add(Vector.ONE), min);
+            CuboidClipboard clipboard = new CuboidClipboard(max.subtract(min).add(new Vector(1, 1, 1)), min);
             MCEditSchematicFormat.MCEDIT.save(clipboard, file);
         }
         catch(IOException | DataException e) {
