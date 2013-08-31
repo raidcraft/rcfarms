@@ -1,5 +1,8 @@
 package de.raidcraft.rcfarms.tables;
 
+import de.raidcraft.util.ItemUtils;
+import org.bukkit.Material;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -56,5 +59,10 @@ public class TMaterial {
     public void setFarm(TFarm farm) {
 
         this.farm = farm;
+    }
+
+    public Material getBukkitMaterial() {
+
+        return ItemUtils.getItem(name);
     }
 }

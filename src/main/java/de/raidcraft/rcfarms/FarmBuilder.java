@@ -5,7 +5,6 @@ import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -22,8 +21,6 @@ public class FarmBuilder {
     private String name;
     private Timestamp creationDate;
     private String creator;
-    private String welcomeMessage = "";
-    private String farewellMessage = "";
     private Set<Material> materials = new HashSet<>();
     private Location minimumPoint;
     private Location maximumPoint;
@@ -53,8 +50,6 @@ public class FarmBuilder {
         tFarm.setCreationDate(new Timestamp(System.currentTimeMillis()));
         tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
         tFarm.setCreator(creator);
-        tFarm.setWelcomeMessage(ChatColor.GOLD + welcomeMessage);
-        tFarm.setFarewellMessage(ChatColor.YELLOW + farewellMessage);
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
 
         // save locations
@@ -74,7 +69,7 @@ public class FarmBuilder {
         // create schematic
         plugin.getSchematicManager().createSchematic(tFarm, 0);
         // generate region
-        plugin.getFarmManager().generateRegions(minimumPoint.getWorld());
+        plugin.getFarmManager().generateRegion(tFarm);
         // create dynmap marker
         plugin.getDynmapManager().addFarmMarker(tFarm);
     }
@@ -88,18 +83,6 @@ public class FarmBuilder {
     public FarmBuilder setCreator(String creator) {
 
         this.creator = creator;
-        return this;
-    }
-
-    public FarmBuilder setWelcomeMessage(String welcomeMessage) {
-
-        this.welcomeMessage = welcomeMessage;
-        return this;
-    }
-
-    public FarmBuilder setFarewellMessage(String farewellMessage) {
-
-        this.farewellMessage = farewellMessage;
         return this;
     }
 

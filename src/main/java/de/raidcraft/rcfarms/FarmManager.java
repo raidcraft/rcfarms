@@ -13,6 +13,7 @@ import de.raidcraft.rcfarms.tables.TMaterial;
 import de.raidcraft.util.ItemUtils;
 import de.raidcraft.worldcontrol.WorldControlPlugin;
 import de.raidcraft.worldcontrol.restricteditem.RestrictedItem;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 
@@ -46,13 +47,31 @@ public class FarmManager {
             if(regions.containsKey(getRegionName(tFarm.getId()))) continue;
 
             // create region
-            ProtectedCuboidRegion region = new ProtectedCuboidRegion(getRegionName(tFarm.getId()),
-                    new BlockVector(keyPoints[0].getX(), keyPoints[0].getY(), keyPoints[0].getZ()),
-                    new BlockVector(keyPoints[1].getX(), keyPoints[1].getY(), keyPoints[1].getZ()));
-            region.setFlag(DefaultFlag.BUILD, StateFlag.State.ALLOW);
-            region.setFlag(DefaultFlag.GREET_MESSAGE, tFarm.getWelcomeMessage());
-            region.setFlag(DefaultFlag.FAREWELL_MESSAGE, tFarm.getFarewellMessage());
-            plugin.getWorldGuard().getRegionManager(world).addRegion(region);
+            generateRegion(tFarm);
+        }
+    }
+
+    public void generateRegion(TFarm tFarm) {
+
+        TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
+        Map<String,ProtectedRegion> regions = plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).getRegions();
+
+        ProtectedRegion region;
+        boolean create = false;
+        if(regions.containsKey(getRegionName(tFarm.getId()))) {
+            region = regions.get(getRegionName(tFarm.getId()));
+        } else {
+            region = new ProtectedCuboidRegion(getRegionName(tFarm.getId()),
+                new BlockVector(keyPoints[0].getX(), keyPoints[0].getY(), keyPoints[0].getZ()),
+                new BlockVector(keyPoints[1].getX(), keyPoints[1].getY(), keyPoints[1].getZ()));
+            create = true;
+        }
+
+        region.setFlag(DefaultFlag.BUILD, StateFlag.State.ALLOW);
+        region.setFlag(DefaultFlag.GREET_MESSAGE, getWelcomeMessage(tFarm));
+        region.setFlag(DefaultFlag.FAREWELL_MESSAGE, getFarewellMessage(tFarm));
+        if(create) {
+            plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).addRegion(region);
         }
     }
 
@@ -150,5 +169,20 @@ public class FarmManager {
     public String getRegionName(int farmId) {
 
         return plugin.getConfig().farmPrefix + farmId;
+    }
+
+    public String getWelcomeMessage(TFarm tFarm) {
+
+        String materialString = "";
+        for(TMaterial tMaterial : tFarm.getMaterials()) {
+            if(!materialString.isEmpty()) materialString += ", ";
+            materialString += ItemUtils.getFriendlyName(tMaterial.getBukkitMaterial(), ItemUtils.Language.GERMAN);
+        }
+        return ChatColor.GOLD + "Farm '" + tFarm.getName() + "' betreten: " + materialString;
+    }
+
+    public String getFarewellMessage(TFarm tFarm) {
+
+        return ChatColor.LIGHT_PURPLE + "Farm '" + tFarm.getName() + "' verlassen.";
     }
 }

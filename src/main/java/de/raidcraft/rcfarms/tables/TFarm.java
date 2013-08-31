@@ -22,8 +22,6 @@ public class TFarm {
     private String name;
     private Timestamp creationDate;
     private String creator;
-    private String welcomeMessage;
-    private String farewellMessage;
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "farm_id")
     private Set<TMaterial> materials;
@@ -70,26 +68,6 @@ public class TFarm {
     public void setCreator(String creator) {
 
         this.creator = creator;
-    }
-
-    public String getWelcomeMessage() {
-
-        return welcomeMessage;
-    }
-
-    public void setWelcomeMessage(String welcomeMessage) {
-
-        this.welcomeMessage = welcomeMessage;
-    }
-
-    public String getFarewellMessage() {
-
-        return farewellMessage;
-    }
-
-    public void setFarewellMessage(String farewellMessage) {
-
-        this.farewellMessage = farewellMessage;
     }
 
     public Set<TMaterial> getMaterials() {
