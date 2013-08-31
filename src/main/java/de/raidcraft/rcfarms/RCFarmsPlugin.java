@@ -77,6 +77,7 @@ public class RCFarmsPlugin extends BasePlugin {
             @Override
             public void run() {
                 for(TFarm tFarm : RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findList()) {
+                    tFarm.loadChildren();
                     farmManager.checkForRegeneration(tFarm);
                 }
             }

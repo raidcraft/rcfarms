@@ -1,5 +1,7 @@
 package de.raidcraft.rcfarms.tables;
 
+import de.raidcraft.RaidCraft;
+import de.raidcraft.rcfarms.RCFarmsPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -112,6 +114,12 @@ public class TFarm {
     public void setLastRegeneration(Timestamp lastRegeneration) {
 
         this.lastRegeneration = lastRegeneration;
+    }
+
+    public void loadChildren() {
+
+        materials = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TMaterial.class).where().eq("farm_id", id).findSet();
+        keyPoints = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarmLocation.class).where().eq("farm_id", id).findSet();
     }
 
     public World getBukkitWorld() {

@@ -50,6 +50,7 @@ public class BlockListener implements Listener {
             printRegionErrorLog(event.getBlock().getLocation(), "Farm region but no comparing database entry!");
             return;
         }
+        tFarm.loadChildren();
 
         boolean found = false;
         for(TMaterial tMaterial : tFarm.getMaterials()) {
