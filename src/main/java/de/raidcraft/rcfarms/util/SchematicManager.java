@@ -8,6 +8,7 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
+import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.tables.TFarm;
@@ -40,8 +41,16 @@ public class SchematicManager {
             String filePath = getSchematicDirPath(tFarm.getBukkitWorld()) + "/" + schematicName;
 
             File file = new File(filePath);
-            Vector min = keyPoints[0].getSk89qVector();
-            Vector max = keyPoints[1].getSk89qVector();
+            Vector pos1 = keyPoints[0].getSk89qVector();
+            Vector pos2 = keyPoints[1].getSk89qVector();
+
+            Vector min = new Vector(Math.min(pos1.getX(), pos2.getX()),
+                                    Math.min(pos1.getY(), pos2.getY()),
+                                    Math.min(pos1.getZ(), pos2.getZ()));
+            Vector max = new Vector(Math.max(pos1.getX(), pos2.getX()),
+                                    Math.max(pos1.getY(), pos2.getY()),
+                                    Math.max(pos1.getZ(), pos2.getZ()));
+
             CuboidClipboard clipboard = new CuboidClipboard(max.subtract(min).add(new Vector(1, 1, 1)), min);
             MCEditSchematicFormat.MCEDIT.save(clipboard, file);
         }
@@ -69,12 +78,15 @@ public class SchematicManager {
     public void deleteSchematic(TFarm tFarm) throws RaidCraftException {
 
         final File folder = getSchematicDir(tFarm.getBukkitWorld());
-        final File[] files = folder.listFiles(new PatternFilenameFilter(SCHEMATIC_PREFIX + tFarm.getId() + "_*\\.schematic"));
+        final File[] files = folder.listFiles(new PatternFilenameFilter(SCHEMATIC_PREFIX + tFarm.getId() + "*\\.schematic"));
 
+        if(files.length == 0) {
+            RaidCraft.LOGGER.info("D0");
+        }
         // loop through the files
         for ( final File file : files ) {
             if (!file.delete() ) {
-                System.err.println( "Can't remove schematic file " + file.getAbsolutePath() );
+                throw new RaidCraftException("Can't remove schematic file " + file.getAbsolutePath());
             }
         }
     }
