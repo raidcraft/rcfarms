@@ -40,9 +40,9 @@ public class SchematicManager {
             String filePath = getSchematicDirPath(tFarm.getBukkitWorld()) + "/" + schematicName;
 
             File file = new File(filePath);
-            Vector origin = keyPoints[0].getSk89qVector();
-            Vector size = keyPoints[1].getSk89qVector().subtract(keyPoints[0].getSk89qVector());
-            CuboidClipboard clipboard = new CuboidClipboard(size, origin);
+            Vector min = keyPoints[0].getSk89qVector();
+            Vector max = keyPoints[1].getSk89qVector();
+            CuboidClipboard clipboard = new CuboidClipboard(max.subtract(min).add(Vector.ONE), min);
             MCEditSchematicFormat.MCEDIT.save(clipboard, file);
         }
         catch(IOException | DataException e) {
