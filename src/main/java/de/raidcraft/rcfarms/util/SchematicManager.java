@@ -74,6 +74,7 @@ public class SchematicManager {
         try {
             CuboidClipboard clipboard = MCEditSchematicFormat.MCEDIT.load(file);
             clipboard.paste(new EditSession(new BukkitWorld(tFarm.getBukkitWorld()), Integer.MAX_VALUE), clipboard.getOrigin(), false);
+            clipboard.pasteEntities(clipboard.getOrigin());
         } catch (IOException | DataException e) {
             throw new RaidCraftException("Fehler beim laden der Schematic!");
         }
