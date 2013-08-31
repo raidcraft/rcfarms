@@ -1,12 +1,10 @@
 package de.raidcraft.rcfarms.util;
 
 import com.google.common.io.PatternFilenameFilter;
-import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
-import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.data.DataException;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
@@ -51,7 +49,16 @@ public class SchematicManager {
                                     Math.max(pos1.getY(), pos2.getY()),
                                     Math.max(pos1.getZ(), pos2.getZ()));
 
+            // create clipboard
             CuboidClipboard clipboard = new CuboidClipboard(max.subtract(min).add(new Vector(1, 1, 1)), min);
+            BukkitWorld bukkitWorld = new BukkitWorld(tFarm.getBukkitWorld());
+            // store blocks
+            clipboard.copy(new EditSession(bukkitWorld, Integer.MAX_VALUE));
+            // store entities
+            for (LocalEntity entity : bukkitWorld.getEntities(new CuboidRegion(min, max))) {
+                clipboard.storeEntity(entity);
+            }
+            // save schematic
             MCEditSchematicFormat.MCEDIT.save(clipboard, file);
         }
         catch(IOException | DataException e) {
@@ -66,7 +73,7 @@ public class SchematicManager {
         File file = new File(filePath);
         try {
             CuboidClipboard clipboard = MCEditSchematicFormat.MCEDIT.load(file);
-            clipboard.paste(new EditSession(new BukkitWorld(tFarm.getBukkitWorld()), 1000000), clipboard.getOrigin(), false);
+            clipboard.paste(new EditSession(new BukkitWorld(tFarm.getBukkitWorld()), Integer.MAX_VALUE), clipboard.getOrigin(), false);
         } catch (IOException | DataException e) {
             throw new RaidCraftException("Fehler beim laden der Schematic!");
         }
@@ -81,7 +88,7 @@ public class SchematicManager {
         final File[] files = folder.listFiles(new PatternFilenameFilter(SCHEMATIC_PREFIX + tFarm.getId() + "*\\.schematic"));
 
         if(files.length == 0) {
-            RaidCraft.LOGGER.info("D0");
+            RaidCraft.LOGGER.info("No schematic found to delete!");
         }
         // loop through the files
         for ( final File file : files ) {
