@@ -16,6 +16,7 @@ import de.raidcraft.worldcontrol.restricteditem.RestrictedItem;
 import org.bukkit.Material;
 import org.bukkit.World;
 
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,6 +90,8 @@ public class FarmManager {
         int upgradeLevel = 0;
         //TODO get upgrade level
         try {
+            tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
+            RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
             plugin.getSchematicManager().pasteSchematic(tFarm, upgradeLevel);
         } catch (RaidCraftException e) {
             RaidCraft.LOGGER.warning(e.getMessage());
