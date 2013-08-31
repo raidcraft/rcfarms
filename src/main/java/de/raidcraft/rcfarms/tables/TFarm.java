@@ -80,6 +80,14 @@ public class TFarm {
         this.materials = materials;
     }
 
+    public void addMaterial(TMaterial tMaterial) {
+
+        if(materials == null) {
+            materials = new HashSet<>();
+        }
+        materials.add(tMaterial);
+    }
+
     public Set<TFarmLocation> getKeyPoints() {
 
         return keyPoints;

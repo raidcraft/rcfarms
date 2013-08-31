@@ -64,6 +64,7 @@ public class FarmBuilder {
         for(Material material : materials) {
             TMaterial tMaterial = new TMaterial(material.name(), tFarm);
             RaidCraft.getDatabase(RCFarmsPlugin.class).save(tMaterial);
+            tFarm.addMaterial(tMaterial);
         }
 
         // create schematic
