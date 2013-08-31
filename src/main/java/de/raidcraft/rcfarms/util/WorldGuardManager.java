@@ -48,6 +48,19 @@ public class WorldGuardManager {
         return (region != null);
     }
 
+    public String getFarm(Location location) {
+        ApplicableRegionSet regions = worldGuard.getRegionManager(location.getWorld()).getApplicableRegions(location);
+        if(regions.size() == 0) {
+            return null;
+        }
+        for (ProtectedRegion region : regions) {
+            if(region.getId().startsWith(plugin.getConfig().farmPrefix)) {
+                return region.getId();
+            }
+        }
+        return null;
+    }
+
     public double getFarmVolume(String farmId) {
 
         ProtectedRegion region = worldGuard.getRegionManager(world).getRegion(farmId);

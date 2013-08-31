@@ -12,6 +12,7 @@ import de.raidcraft.rcfarms.conversations.actions.*;
 import de.raidcraft.rcfarms.conversations.actions.wizzard.AddFarmMaterialAction;
 import de.raidcraft.rcfarms.conversations.actions.wizzard.AddFarmNameAction;
 import de.raidcraft.rcfarms.conversations.actions.wizzard.CreateFarmAction;
+import de.raidcraft.rcfarms.listener.BlockListener;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
@@ -52,6 +53,9 @@ public class RCFarmsPlugin extends BasePlugin {
 
         // register commands
         registerCommands(FarmCommands.class);
+
+        // register listener
+        registerEvents(new BlockListener());
 
         // register upgrades
         //RaidCraft.getComponent(RCUpgradesPlugin.class).getUpgradeManager().registerUpgrade(FarmRestoreFrequencyUpgrade.class);
