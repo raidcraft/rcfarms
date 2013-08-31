@@ -1,7 +1,9 @@
 package de.raidcraft.rcfarms.tables;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -132,5 +134,20 @@ public class TFarm {
 
         TFarmLocation[] keyPoints = getKeyPoints().toArray(new TFarmLocation[getKeyPoints().size()]);
         return Bukkit.getWorld(keyPoints[0].getWorld());
+    }
+
+    public boolean isPlayerInside() {
+
+        TFarmLocation[] kp = getKeyPoints().toArray(new TFarmLocation[getKeyPoints().size()]);
+
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            Location loc = player.getLocation();
+            if(loc.getBlockX() >= Math.min(kp[0].getX(), kp[1].getX()) && loc.getBlockX() <= Math.max(kp[0].getX(), kp[1].getX())
+                    && loc.getBlockY() >= Math.min(kp[0].getY(), kp[1].getY()) && loc.getBlockY() <= Math.max(kp[0].getY(), kp[1].getY())
+                    && loc.getBlockZ() >= Math.min(kp[0].getZ(), kp[1].getZ()) && loc.getBlockZ() <= Math.max(kp[0].getZ(), kp[1].getZ())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -108,6 +108,10 @@ public class FarmManager {
                     .getRestrictedItemManager().getRestrictedItem(material);
             if(restrictedItem == null) continue;
             if(restrictedItem.getRegenerationTime() < ((System.currentTimeMillis() - tFarm.getLastRegeneration().getTime()) / 1000)) {
+                // check if player is inside farm -> abort regeneration
+                if(tFarm.isPlayerInside()) {
+                    continue;
+                }
                 RaidCraft.LOGGER.info("Regenerate farm '" + tFarm.getName() + "' with ID '" + tFarm.getId() + "'");
                 regenerateFarm(tFarm);
                 return true;
