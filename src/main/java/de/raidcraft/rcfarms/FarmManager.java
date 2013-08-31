@@ -175,8 +175,8 @@ public class FarmManager {
 
         String materialString = "";
         for(TMaterial tMaterial : tFarm.getMaterials()) {
-            if(!materialString.isEmpty()) materialString += ", ";
-            materialString += ItemUtils.getFriendlyName(tMaterial.getBukkitMaterial(), ItemUtils.Language.GERMAN);
+            if(!materialString.isEmpty()) materialString += ChatColor.GOLD + ", ";
+            materialString += ChatColor.DARK_GREEN + ItemUtils.getFriendlyName(tMaterial.getBukkitMaterial(), ItemUtils.Language.GERMAN);
         }
         return ChatColor.GOLD + "Farm '" + tFarm.getName() + "' betreten: " + materialString;
     }
