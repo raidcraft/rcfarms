@@ -71,6 +71,7 @@ public class FarmBuilder {
         plugin.getSchematicManager().createSchematic(tFarm, 0);
         // generate region
         plugin.getFarmManager().generateRegion(tFarm);
+        plugin.getWorldGuardManager().save();
         // create dynmap marker
         plugin.getDynmapManager().addFarmMarker(tFarm);
     }

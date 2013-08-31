@@ -3,7 +3,9 @@ package de.raidcraft.rcfarms.util;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.databases.ProtectionDatabaseException;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import de.raidcraft.RaidCraft;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -71,5 +73,16 @@ public class WorldGuardManager {
         int xLength = max.getBlockX() - min.getBlockX();
         int zWidth = max.getBlockZ() - min.getBlockZ();
         return xLength * zWidth * (max.getBlockY() - min.getBlockY());
+    }
+
+    public void save() {
+
+        for (World world : Bukkit.getServer().getWorlds()) {
+            try {
+                worldGuard.getRegionManager(world).save();
+            } catch (ProtectionDatabaseException e) {
+                RaidCraft.LOGGER.warning(e.getMessage());
+            }
+        }
     }
 }
