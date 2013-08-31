@@ -6,6 +6,7 @@ import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TMaterial;
 import de.raidcraft.rcfarms.util.WorldGuardManager;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,6 +21,11 @@ public class BlockListener implements Listener {
     // ignore cancelled events and call this handler as latest
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
+
+        // ignoring creative players
+        if(event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+            return;
+        }
 
         RCFarmsPlugin plugin = RaidCraft.getComponent(RCFarmsPlugin.class);
         WorldGuardManager worldGuardManager = plugin.getWorldGuardManager();
