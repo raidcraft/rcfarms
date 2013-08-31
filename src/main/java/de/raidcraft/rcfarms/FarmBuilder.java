@@ -5,9 +5,9 @@ import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -53,8 +53,8 @@ public class FarmBuilder {
         tFarm.setCreationDate(new Timestamp(System.currentTimeMillis()));
         tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
         tFarm.setCreator(creator);
-        tFarm.setWelcomeMessage(welcomeMessage);
-        tFarm.setFarewellMessage(farewellMessage);
+        tFarm.setWelcomeMessage(ChatColor.GOLD + welcomeMessage);
+        tFarm.setFarewellMessage(ChatColor.YELLOW + farewellMessage);
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
 
         // save locations
