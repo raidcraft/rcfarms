@@ -27,21 +27,9 @@ public class CreateFarmAction extends AbstractAction {
     public void run(Conversation conversation, ActionArgumentList args) throws ActionArgumentException {
 
         String farmName = conversation.getString("farm_name");
-        String farmWelcome = conversation.getString("farm_welcome");
-        String farmFarewell = conversation.getString("farm_farewell");
 
         if(farmName == null || farmName.isEmpty()) {
             printError(conversation, "Der angegebene Name ist leer!");
-            return;
-        }
-
-        if(farmWelcome == null || farmWelcome.isEmpty()) {
-            printError(conversation, "Die angegebene Willkommensnachricht ist leer!");
-            return;
-        }
-
-        if(farmFarewell == null || farmFarewell.isEmpty()) {
-            printError(conversation, "Die angegebene Abschiedsnachricht ist leer!");
             return;
         }
 
@@ -75,8 +63,6 @@ public class CreateFarmAction extends AbstractAction {
         FarmBuilder farmBuilder = new FarmBuilder();
         farmBuilder.setName(farmName);
         farmBuilder.setCreator(conversation.getPlayer().getName());
-        farmBuilder.setWelcomeMessage(farmWelcome);
-        farmBuilder.setFarewellMessage(farmFarewell);
         farmBuilder.addMaterials(materials);
         farmBuilder.setMinimumPoint(selection.getMinimumPoint());
         farmBuilder.setMaximumPoint(selection.getMaximumPoint());
