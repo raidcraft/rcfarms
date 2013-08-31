@@ -59,6 +59,7 @@ public class CreateFarmAction extends AbstractAction {
             return;
         }
 
+        conversation.getPlayer().sendMessage(ChatColor.GREEN + "Die Farm '" + farmName + "' wird erstellt...");
         // create farm
         FarmBuilder farmBuilder = new FarmBuilder();
         farmBuilder.setName(farmName);
@@ -72,7 +73,7 @@ public class CreateFarmAction extends AbstractAction {
             printError(conversation, e.getMessage());
             return;
         }
-        conversation.getPlayer().sendMessage(ChatColor.GREEN + "Die Farm '" + farmName + "' wurde erfolgreich erstellt!");
+        conversation.getPlayer().sendMessage(ChatColor.GREEN + "Der Erstellvorgang wure erfolgreich abgeschlossen!");
     }
 
     private void printError(Conversation conversation, String msg) {

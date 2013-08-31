@@ -1,10 +1,12 @@
 package de.raidcraft.rcfarms.util;
 
 import com.google.common.io.PatternFilenameFilter;
-import com.sk89q.worldedit.*;
+import com.sk89q.worldedit.CuboidClipboard;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.MaxChangedBlocksException;
+import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.data.DataException;
-import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
@@ -55,9 +57,9 @@ public class SchematicManager {
             // store blocks
             clipboard.copy(new EditSession(bukkitWorld, Integer.MAX_VALUE));
             // store entities
-            for (LocalEntity entity : bukkitWorld.getEntities(new CuboidRegion(min, max))) {
-                clipboard.storeEntity(entity);
-            }
+//            for (LocalEntity entity : bukkitWorld.getEntities(new CuboidRegion(min, max))) {
+//                clipboard.storeEntity(entity);
+//            }
             // save schematic
             MCEditSchematicFormat.MCEDIT.save(clipboard, file);
         }
@@ -74,7 +76,7 @@ public class SchematicManager {
         try {
             CuboidClipboard clipboard = MCEditSchematicFormat.MCEDIT.load(file);
             clipboard.paste(new EditSession(new BukkitWorld(tFarm.getBukkitWorld()), Integer.MAX_VALUE), clipboard.getOrigin(), false);
-            clipboard.pasteEntities(clipboard.getOrigin());
+//            clipboard.pasteEntities(clipboard.getOrigin());
         } catch (IOException | DataException e) {
             throw new RaidCraftException("Fehler beim laden der Schematic!");
         }
