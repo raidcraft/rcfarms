@@ -37,7 +37,9 @@ public class BlockListener implements Listener {
         int farmId;
         String prefix = plugin.getConfig().farmPrefix;
         try {
-            farmId = Integer.valueOf(farmRegion.substring(prefix.length(), farmRegion.length() - 1));
+            String farmIdString = farmRegion.substring(prefix.length(), farmRegion.length() - 1);
+            RaidCraft.LOGGER.info("farmIdString: " + farmIdString);
+            farmId = Integer.valueOf(farmIdString);
         }
         catch(NumberFormatException e) {
             printRegionErrorLog(event.getBlock().getLocation(), "Corrupt farm region id!");
