@@ -183,6 +183,6 @@ public class FarmManager {
 
     public String getFarewellMessage(TFarm tFarm) {
 
-        return ChatColor.LIGHT_PURPLE + "Farm '" + tFarm.getName() + "' verlassen.";
+        return ChatColor.GRAY + "Farm verlassen.";
     }
 }
