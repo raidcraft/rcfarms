@@ -128,7 +128,8 @@ public class FarmCommands {
                 if(farmNameList.length() > 0) farmNameList.append(ChatColor.WHITE + ", ");
                 farmNameList.append(ChatColor.YELLOW).append(tFarm.getName()).append(" (").append(tFarm.getId()).append(")");
             }
-            sender.sendMessage(ChatColor.GREEN + "Alle existi");
+            sender.sendMessage(ChatColor.GREEN + "Alle verfügbaren Farmen:");
+            sender.sendMessage(farmNameList.toString());
         }
 
         @Command(
