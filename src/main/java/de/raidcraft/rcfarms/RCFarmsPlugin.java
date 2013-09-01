@@ -160,6 +160,9 @@ public class RCFarmsPlugin extends BasePlugin {
         @Setting("creating-conversation-name")
         public String creatingConversationName = "farm_create_wizard";
 
+        @Setting("editing-conversation-name")
+        public String editingConversationName = "farm_edit_wizard";
+
         public LocalConfiguration(RCFarmsPlugin plugin) {
 
             super(plugin, "config.yml");

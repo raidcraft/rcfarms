@@ -53,7 +53,7 @@ public class FarmCommands {
                 aliases = {"reload"},
                 desc = "Reloads the plugin"
         )
-        @CommandPermissions("rcfarms.reload")
+        @CommandPermissions("rcfarms.admin")
         public void reload(CommandContext args, CommandSender sender) {
 
             plugin.reload();
@@ -64,7 +64,7 @@ public class FarmCommands {
                 aliases = {"create"},
                 desc = "Creates a farm"
         )
-        @CommandPermissions("rcfarms.create")
+        @CommandPermissions("rcfarms.admin")
         public void create(CommandContext args, CommandSender sender) throws CommandException {
 
             if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
@@ -79,12 +79,25 @@ public class FarmCommands {
         }
 
         @Command(
+                aliases = {"edit"},
+                desc = "Edit a farm"
+        )
+        @CommandPermissions("rcfarms.admin")
+        public void edit(CommandContext args, CommandSender sender) throws CommandException {
+
+            if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
+            Player player = (Player)sender;
+
+            RaidCraft.getConversationProvider().triggerConversation(player, plugin.getConfig().editingConversationName, new FarmHost(player.getLocation()));
+        }
+
+        @Command(
                 aliases = {"delete"},
                 desc = "Delete a farm",
                 min = 1,
                 usage = "<farm id/name>"
         )
-        @CommandPermissions("rcfarms.delete")
+        @CommandPermissions("rcfarms.admin")
         public void delete(CommandContext args, CommandSender sender) throws CommandException {
 
             try {
@@ -99,7 +112,7 @@ public class FarmCommands {
                 aliases = {"check"},
                 desc = "Check all farms for regeneration"
         )
-        @CommandPermissions("rcfarms.check")
+        @CommandPermissions("rcfarms.admin")
         public void check(CommandContext args, CommandSender sender) throws CommandException {
 
             sender.sendMessage(ChatColor.GREEN + "Start regeneration check...");
@@ -122,9 +135,7 @@ public class FarmCommands {
         )
         public void list(CommandContext args, CommandSender sender) throws CommandException {
 
-            if(!(sender instanceof Player)) {
-                throw new CommandException("Spielerkontext erforderlich!");
-            }
+            if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
             Player player = (Player)sender;
 
             StringBuilder farmNameList = new StringBuilder();
@@ -165,13 +176,12 @@ public class FarmCommands {
                 desc = "Warp player to specific farm",
                 usage = "<Farm ID/Name> [Spieler]"
         )
+        @CommandPermissions("rcfarms.admin")
         public void warp(CommandContext args, CommandSender sender) throws CommandException {
 
             Player player;
             if(args.argsLength() < 2) {
-                if(!(sender instanceof Player)) {
-                    throw new CommandException("Spielerkontext erforderlich!");
-                }
+                if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
                 player = (Player)sender;
             }
             else {
