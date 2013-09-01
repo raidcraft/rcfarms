@@ -34,7 +34,7 @@ public class SchematicManager {
 
     public void createSchematic(TFarm tFarm, int upgradeLevel) throws RaidCraftException {
 
-        TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
+        TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
 
         try {
             String schematicName = getSchematicName(tFarm.getId(), upgradeLevel);

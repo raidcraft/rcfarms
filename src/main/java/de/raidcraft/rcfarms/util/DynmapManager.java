@@ -40,7 +40,7 @@ public class DynmapManager {
 
         removeMarker(tFarm);
 
-        TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
+        TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
 
         farmsSet.createMarker(tFarm.getName().toLowerCase().replace(" ", "_")
                 , tFarm.getName()

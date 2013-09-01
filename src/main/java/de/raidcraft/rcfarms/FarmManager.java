@@ -39,7 +39,7 @@ public class FarmManager {
         Set<TFarm> farms = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findSet();
         for(TFarm tFarm : farms) {
 
-            TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
+            TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
             // check world
             if(!keyPoints[0].getWorld().equalsIgnoreCase(world.getName())) continue;
 
@@ -53,7 +53,7 @@ public class FarmManager {
 
     public void generateRegion(TFarm tFarm) {
 
-        TFarmLocation[] keyPoints = tFarm.getKeyPoints().toArray(new TFarmLocation[tFarm.getKeyPoints().size()]);
+        TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
         Map<String,ProtectedRegion> regions = plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).getRegions();
 
         ProtectedRegion region;

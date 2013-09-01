@@ -7,10 +7,12 @@ import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.conversations.host.FarmHost;
 import de.raidcraft.rcfarms.tables.TFarm;
+import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
 import de.raidcraft.util.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -142,6 +144,9 @@ public class FarmCommands {
         public void info(CommandContext args, CommandSender sender) throws CommandException {
 
             TFarm tFarm = plugin.getFarmManager().getFarm(args.getString(0));
+            if(tFarm == null) {
+                throw new CommandException("Die Farm '" + args.getString(0) + "' wurde nicht gefunden! (ID oder Name möglich)");
+            }
             StringBuilder materialList = new StringBuilder();
             for(TMaterial tMaterial : tFarm.getMaterials()) {
                 if(materialList.length() > 0) materialList.append(ChatColor.WHITE).append(", ");
@@ -157,10 +162,33 @@ public class FarmCommands {
 
         @Command(
                 aliases = {"warp", "tp"},
-                desc = "List all farms"
+                desc = "Warp player to specific farm",
+                usage = "<Farm ID/Name> [Spieler]"
         )
         public void warp(CommandContext args, CommandSender sender) throws CommandException {
-            //TODO
+
+            Player player;
+            if(args.argsLength() < 2) {
+                if(!(sender instanceof Player)) {
+                    throw new CommandException("Spielerkontext erforderlich!");
+                }
+                player = (Player)sender;
+            }
+            else {
+                player = Bukkit.getPlayer(args.getString(1));
+                if(player == null) {
+                    throw new CommandException("Keinen passenden Spieler gefunden!");
+                }
+            }
+
+            TFarm tFarm = plugin.getFarmManager().getFarm(args.getString(0));
+            if(tFarm == null) {
+                throw new CommandException("Die Farm '" + args.getString(0) + "' wurde nicht gefunden! (ID oder Name möglich)");
+            }
+
+            TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
+            player.teleport(new Location(tFarm.getBukkitWorld(), keyPoints[0].getX(), keyPoints[0].getY() + 20, keyPoints[0].getZ()));
+            sender.sendMessage(ChatColor.GREEN + "Du wurdest zu Farm '" + tFarm.getName() + "' teleportiert!");
         }
     }
 }

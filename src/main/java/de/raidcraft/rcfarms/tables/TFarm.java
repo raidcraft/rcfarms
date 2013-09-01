@@ -104,6 +104,11 @@ public class TFarm {
         return keyPoints;
     }
 
+    public TFarmLocation[] getKeyPointArray() {
+
+        return keyPoints.toArray(new TFarmLocation[keyPoints.size()]);
+    }
+
     public void setKeyPoints(Set<TFarmLocation> keyPoints) {
 
         this.keyPoints = keyPoints;
@@ -135,14 +140,14 @@ public class TFarm {
 
     public World getBukkitWorld() {
 
-        TFarmLocation[] keyPoints = getKeyPoints().toArray(new TFarmLocation[getKeyPoints().size()]);
+        TFarmLocation[] keyPoints = getKeyPointArray();
         return Bukkit.getWorld(keyPoints[0].getWorld());
     }
 
     public boolean isPlayerInside() {
 
         // TODO check take to much time
-//        TFarmLocation[] kp = getKeyPoints().toArray(new TFarmLocation[getKeyPoints().size()]);
+//        TFarmLocation[] kp = getKeyPointArray();
 //
 //        for(Player player : Bukkit.getOnlinePlayers()) {
 //            Location loc = player.getLocation();
