@@ -88,7 +88,7 @@ public class SchematicManager {
     public void deleteSchematic(TFarm tFarm) throws RaidCraftException {
 
         final File folder = getSchematicDir(tFarm.getBukkitWorld());
-        final File[] files = folder.listFiles(new PatternFilenameFilter(SCHEMATIC_PREFIX + tFarm.getId() + "*\\.schematic"));
+        final File[] files = folder.listFiles(new PatternFilenameFilter(SCHEMATIC_PREFIX + tFarm.getId() + ".*\\.schematic"));
 
         if(files.length == 0) {
             RaidCraft.LOGGER.info("No schematic found to delete!");
