@@ -153,7 +153,7 @@ public class FarmCommands {
                 materialList.append(ChatColor.YELLOW).append(ItemUtils.getFriendlyName(tMaterial.getBukkitMaterial()));
             }
 
-            sender.sendMessage(ChatColor.GREEN + "Informationen zur Farm '" + ChatColor.YELLOW + tFarm.getName() + ChatColor.GRAY + "' ("
+            sender.sendMessage(ChatColor.GREEN + "Informationen zur Farm '" + ChatColor.YELLOW + tFarm.getName() + ChatColor.GREEN + "' ("
                     + tFarm.getId() + "):");
             sender.sendMessage(ChatColor.GREEN + "Erstellt am: " + ChatColor.YELLOW + tFarm.getCreationDate().toString());
             sender.sendMessage(ChatColor.GREEN + "Von: " + ChatColor.YELLOW + tFarm.getCreator());
