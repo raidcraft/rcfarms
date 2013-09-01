@@ -7,6 +7,8 @@ import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.conversations.host.FarmHost;
 import de.raidcraft.rcfarms.tables.TFarm;
+import de.raidcraft.rcfarms.tables.TMaterial;
+import de.raidcraft.util.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -125,7 +127,7 @@ public class FarmCommands {
 
             StringBuilder farmNameList = new StringBuilder();
             for(TFarm tFarm : plugin.getFarmManager().getFarms(player.getLocation().getWorld().getName())) {
-                if(farmNameList.length() > 0) farmNameList.append(ChatColor.WHITE + ", ");
+                if(farmNameList.length() > 0) farmNameList.append(ChatColor.WHITE).append(", ");
                 farmNameList.append(ChatColor.YELLOW).append(tFarm.getName()).append(" (").append(tFarm.getId()).append(")");
             }
             sender.sendMessage(ChatColor.GREEN + "Alle verfügbaren Farmen:");
@@ -138,7 +140,19 @@ public class FarmCommands {
                 desc = "Info about an specific farm"
         )
         public void info(CommandContext args, CommandSender sender) throws CommandException {
-            //TODO
+
+            TFarm tFarm = plugin.getFarmManager().getFarm(args.getString(0));
+            StringBuilder materialList = new StringBuilder();
+            for(TMaterial tMaterial : tFarm.getMaterials()) {
+                if(materialList.length() > 0) materialList.append(ChatColor.WHITE).append(", ");
+                materialList.append(ChatColor.YELLOW).append(ItemUtils.getFriendlyName(tMaterial.getBukkitMaterial()));
+            }
+
+            sender.sendMessage(ChatColor.GREEN + "Informationen zur Farm '" + ChatColor.YELLOW + tFarm.getName() + ChatColor.GRAY + "' ("
+                    + tFarm.getId() + "):");
+            sender.sendMessage(ChatColor.GREEN + "Erstellt am: " + ChatColor.YELLOW + tFarm.getCreationDate().toString());
+            sender.sendMessage(ChatColor.GREEN + "Von: " + ChatColor.YELLOW + tFarm.getCreator());
+            sender.sendMessage(ChatColor.GREEN + "Materialien: " + materialList.toString());
         }
 
         @Command(

@@ -196,6 +196,9 @@ public class FarmManager {
         catch (NumberFormatException e) {
             tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().ieq("name", keyword).findUnique();
         }
+        if(tFarm != null) {
+            tFarm.loadChildren();
+        }
         return tFarm;
     }
 
