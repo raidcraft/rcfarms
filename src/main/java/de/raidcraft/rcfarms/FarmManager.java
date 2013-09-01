@@ -75,10 +75,10 @@ public class FarmManager {
         }
     }
 
-    public void deleteFarm(String farmId) throws RaidCraftException {
+    public void deleteFarm(String farmKeyword) throws RaidCraftException {
 
 
-        TFarm tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class, farmId);
+        TFarm tFarm = getFarm(farmKeyword);
         if(tFarm == null) {
             throw new RaidCraftException("Es gibt keine Farm mit dieser Id");
         }
@@ -197,5 +197,10 @@ public class FarmManager {
             tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().ieq("name", keyword).findUnique();
         }
         return tFarm;
+    }
+
+    public Iterable<TFarm> getFarms(String world) {
+
+        return RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().ieq("world", world).findList();
     }
 }

@@ -21,6 +21,7 @@ public class FarmBuilder {
     private String name;
     private Timestamp creationDate;
     private String creator;
+    private String world;
     private Set<Material> materials = new HashSet<>();
     private Location minimumPoint;
     private Location maximumPoint;
@@ -44,12 +45,18 @@ public class FarmBuilder {
             throw new RaidCraftException("Keine Materialien zugewiesen!");
         }
 
+        // check world
+        if(world == null) {
+            throw new RaidCraftException("Keine Welt angegeben!");
+        }
+
         // save farm
         TFarm tFarm = new TFarm();
         tFarm.setName(name);
         tFarm.setCreationDate(new Timestamp(System.currentTimeMillis()));
         tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
         tFarm.setCreator(creator);
+        tFarm.setWorld(world);
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
 
         // save locations
@@ -85,6 +92,12 @@ public class FarmBuilder {
     public FarmBuilder setCreator(String creator) {
 
         this.creator = creator;
+        return this;
+    }
+
+    public FarmBuilder setWorld(String world) {
+
+        this.world = world;
         return this;
     }
 

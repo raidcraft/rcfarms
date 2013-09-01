@@ -22,6 +22,7 @@ public class TFarm {
     private String name;
     private Timestamp creationDate;
     private String creator;
+    private String world;
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "farm_id")
     private Set<TMaterial> materials;
@@ -68,6 +69,16 @@ public class TFarm {
     public void setCreator(String creator) {
 
         this.creator = creator;
+    }
+
+    public String getWorld() {
+
+        return world;
+    }
+
+    public void setWorld(String world) {
+
+        this.world = world;
     }
 
     public Set<TMaterial> getMaterials() {

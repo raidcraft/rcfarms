@@ -7,7 +7,9 @@ import de.raidcraft.api.RaidCraftException;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.conversations.host.FarmHost;
 import de.raidcraft.rcfarms.tables.TFarm;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -76,14 +78,14 @@ public class FarmCommands {
                 aliases = {"delete"},
                 desc = "Delete a farm",
                 min = 1,
-                usage = "<farm id>"
+                usage = "<farm id/name>"
         )
         @CommandPermissions("rcfarms.delete")
         public void delete(CommandContext args, CommandSender sender) throws CommandException {
 
             try {
                 plugin.getFarmManager().deleteFarm(args.getString(0));
-                sender.sendMessage(ChatColor.GREEN + "Du hast erfolgreich die Farm mit der ID " + args.getString(0) + " gelöscht!");
+                sender.sendMessage(ChatColor.GREEN + "Du hast erfolgreich die Farm '" + args.getString(0) + "' gelöscht!");
             } catch (RaidCraftException e) {
                 throw new CommandException(e.getMessage());
             }
@@ -93,17 +95,19 @@ public class FarmCommands {
                 aliases = {"check"},
                 desc = "Check all farms for regeneration"
         )
-                 @CommandPermissions("rcfarms.check")
-                 public void check(CommandContext args, CommandSender sender) throws CommandException {
+        @CommandPermissions("rcfarms.check")
+        public void check(CommandContext args, CommandSender sender) throws CommandException {
 
             sender.sendMessage(ChatColor.GREEN + "Start regeneration check...");
             int regenerated = 0;
             int farmCount = 0;
-            for(TFarm tFarm : RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findList()) {
-                if(plugin.getFarmManager().checkForRegeneration(tFarm)) {
-                    regenerated++;
+            for(World world : Bukkit.getWorlds()) {
+                for(TFarm tFarm : plugin.getFarmManager().getFarms(world.getName())) {
+                    if(plugin.getFarmManager().checkForRegeneration(tFarm)) {
+                        regenerated++;
+                    }
+                    farmCount++;
                 }
-                farmCount++;
             }
             sender.sendMessage(ChatColor.GREEN + "Checked all farms! " + regenerated + "/" + farmCount + " regenerated");
         }
@@ -113,7 +117,18 @@ public class FarmCommands {
                 desc = "List all farms"
         )
         public void list(CommandContext args, CommandSender sender) throws CommandException {
-            //TODO
+
+            if(!(sender instanceof Player)) {
+                throw new CommandException("Spielerkontext erforderlich!");
+            }
+            Player player = (Player)sender;
+
+            StringBuilder farmNameList = new StringBuilder();
+            for(TFarm tFarm : plugin.getFarmManager().getFarms(player.getLocation().getWorld().getName())) {
+                if(farmNameList.length() > 0) farmNameList.append(ChatColor.WHITE + ", ");
+                farmNameList.append(ChatColor.YELLOW).append(tFarm.getName()).append(" (").append(tFarm.getId()).append(")");
+            }
+            sender.sendMessage(ChatColor.GREEN + "Alle existi");
         }
 
         @Command(

@@ -20,6 +20,7 @@ import de.raidcraft.rcfarms.util.DynmapManager;
 import de.raidcraft.rcfarms.util.SchematicManager;
 import de.raidcraft.rcfarms.util.WorldGuardManager;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,9 +77,11 @@ public class RCFarmsPlugin extends BasePlugin {
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
-                for(TFarm tFarm : RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findList()) {
-                    tFarm.loadChildren();
-                    farmManager.checkForRegeneration(tFarm);
+                for(World world : Bukkit.getWorlds()) {
+                    for(TFarm tFarm : RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().getFarms(world.getName())) {
+                        tFarm.loadChildren();
+                        farmManager.checkForRegeneration(tFarm);
+                    }
                 }
             }
         }, 0, 60 * 60 * 20);
