@@ -185,4 +185,17 @@ public class FarmManager {
 
         return ChatColor.GRAY + "Farm verlassen.";
     }
+
+    public TFarm getFarm(String keyword) {
+
+        TFarm tFarm;
+        try {
+            int id = Integer.parseInt(keyword);
+            tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class, id);
+        }
+        catch (NumberFormatException e) {
+            tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().ieq("name", keyword).findUnique();
+        }
+        return tFarm;
+    }
 }

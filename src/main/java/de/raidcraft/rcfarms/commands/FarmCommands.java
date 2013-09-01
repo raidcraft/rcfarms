@@ -93,8 +93,8 @@ public class FarmCommands {
                 aliases = {"check"},
                 desc = "Check all farms for regeneration"
         )
-        @CommandPermissions("rcfarms.check")
-        public void check(CommandContext args, CommandSender sender) throws CommandException {
+                 @CommandPermissions("rcfarms.check")
+                 public void check(CommandContext args, CommandSender sender) throws CommandException {
 
             sender.sendMessage(ChatColor.GREEN + "Start regeneration check...");
             int regenerated = 0;
@@ -106,6 +106,31 @@ public class FarmCommands {
                 farmCount++;
             }
             sender.sendMessage(ChatColor.GREEN + "Checked all farms! " + regenerated + "/" + farmCount + " regenerated");
+        }
+
+        @Command(
+                aliases = {"list"},
+                desc = "List all farms"
+        )
+        public void list(CommandContext args, CommandSender sender) throws CommandException {
+            //TODO
+        }
+
+        @Command(
+                aliases = {"info"},
+                min = 1,
+                desc = "Info about an specific farm"
+        )
+        public void info(CommandContext args, CommandSender sender) throws CommandException {
+            //TODO
+        }
+
+        @Command(
+                aliases = {"warp", "tp"},
+                desc = "List all farms"
+        )
+        public void warp(CommandContext args, CommandSender sender) throws CommandException {
+            //TODO
         }
     }
 }

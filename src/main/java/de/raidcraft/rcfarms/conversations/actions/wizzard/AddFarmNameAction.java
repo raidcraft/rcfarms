@@ -31,7 +31,14 @@ public class AddFarmNameAction extends AbstractAction {
             return;
         }
 
-        TFarm tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().ieq("name", name).findUnique();
+        try {
+            Integer.valueOf(name);
+            printError(conversation, "Der Name darf keine Zahl sein!");
+            return;
+        }
+        catch(NumberFormatException e) {}
+
+        TFarm tFarm = RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().getFarm(name);
         if(tFarm != null) {
             printError(conversation, "Eine Farm mit dem name '" + tFarm.getName() + "' existiert bereits!");
             return;

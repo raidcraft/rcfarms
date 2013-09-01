@@ -30,7 +30,7 @@ public class FarmBuilder {
         RCFarmsPlugin plugin = RaidCraft.getComponent(RCFarmsPlugin.class);
 
         // check name
-        if(RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).where().eq("name", name).findUnique() != null) {
+        if(plugin.getFarmManager().getFarm(name) != null) {
             throw new RaidCraftException("Es gibt bereits eine Farm mit diesem Namen!");
         }
 
