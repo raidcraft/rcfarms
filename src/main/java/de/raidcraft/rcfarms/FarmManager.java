@@ -139,9 +139,9 @@ public class FarmManager {
         return false;
     }
 
-    public double getFarmPrice(String farmId) {
+    public double getFarmPrice(TFarm tFarm) {
 
-        return plugin.getConfig().pricePerBlock * plugin.getWorldGuardManager().getFarmVolume(farmId);
+        return plugin.getConfig().pricePerBlock * plugin.getWorldGuardManager().getFarmVolume(tFarm.getBukkitWorld(), getRegionName(tFarm.getId()));
     }
 
     public void buyFarm(String player, String farmId) {
