@@ -74,7 +74,9 @@ public class RCFarmsPlugin extends BasePlugin {
         dynmapManager = new DynmapManager();
 
         // regenerate regions at startup (if some are deleted)
-        farmManager.generateRegions(Bukkit.getWorld(config.world));
+        for(World world : Bukkit.getWorlds()) {
+            farmManager.generateRegions(world);
+        }
 
         // check each hour all farms for regeneration
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
@@ -147,9 +149,6 @@ public class RCFarmsPlugin extends BasePlugin {
     }
 
     public class LocalConfiguration extends ConfigurationBase<RCFarmsPlugin> {
-
-        @Setting("farm-world")
-        public String world = "world";
 
         @Setting("farm-region-prefix")
         public String farmPrefix = "itemfarm_";

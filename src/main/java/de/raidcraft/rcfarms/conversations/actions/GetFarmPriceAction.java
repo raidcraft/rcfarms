@@ -19,7 +19,7 @@ public class GetFarmPriceAction extends AbstractAction {
         RCFarmsPlugin plugin = RaidCraft.getComponent(RCFarmsPlugin.class);
 
         // check farm id
-        if(!plugin.getWorldGuardManager().isFarm(farmId)) {
+        if(!plugin.getWorldGuardManager().isFarm(conversation.getPlayer().getWorld(), farmId)) {
             throw new WrongArgumentValueException("Wrong argument value in action '" + getName() + "': Farm '" + farmId + "' does not exist!");
         }
 

@@ -27,7 +27,7 @@ public class BuyFarmAction extends AbstractAction {
         FarmManager farmManager = plugin.getFarmManager();
 
         // check farm id
-        if(!plugin.getWorldGuardManager().isFarm(farmId)) {
+        if(!plugin.getWorldGuardManager().isFarm(conversation.getPlayer().getWorld(), farmId)) {
             setErrorMsg(conversation, "Die Farm mit der ID " + farmId + " wurde nicht gefunden!");
             changeStage(conversation, failure);
             return;

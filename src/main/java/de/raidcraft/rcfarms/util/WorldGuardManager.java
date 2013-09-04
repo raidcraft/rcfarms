@@ -18,13 +18,11 @@ public class WorldGuardManager {
 
     private RCFarmsPlugin plugin;
     private WorldGuardPlugin worldGuard;
-    private World world;
 
     public WorldGuardManager(RCFarmsPlugin plugin, WorldGuardPlugin worldGuard) {
 
         this.plugin = plugin;
         this.worldGuard = worldGuard;
-        this.world = Bukkit.getWorld(plugin.getConfig().world);
     }
 
     public String getFarmName(Location location) {
@@ -42,7 +40,7 @@ public class WorldGuardManager {
         return null;
     }
 
-    public boolean isFarm(String regionId) {
+    public boolean isFarm(World world, String regionId) {
 
         if(!regionId.startsWith(plugin.getConfig().farmPrefix)) return false;
 
@@ -63,7 +61,7 @@ public class WorldGuardManager {
         return null;
     }
 
-    public double getFarmVolume(String farmId) {
+    public double getFarmVolume(World world, String farmId) {
 
         ProtectedRegion region = worldGuard.getRegionManager(world).getRegion(farmId);
         if(region == null) return 0;

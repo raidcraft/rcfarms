@@ -23,7 +23,7 @@ public class IsForSaleAction extends AbstractAction {
         FarmManager farmManager = plugin.getFarmManager();
 
         // check farm id
-        if(!plugin.getWorldGuardManager().isFarm(farmId)) {
+        if(!plugin.getWorldGuardManager().isFarm(conversation.getPlayer().getWorld(), farmId)) {
             changeStage(conversation, failure);
             return;
         }

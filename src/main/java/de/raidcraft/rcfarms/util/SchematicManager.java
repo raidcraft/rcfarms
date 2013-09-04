@@ -119,16 +119,13 @@ public class SchematicManager {
 
     public String getSchematicDirPath(World world) throws RaidCraftException{
 
-//        try {
-//            String path = plugin.getDataFolder().getCanonicalPath() + "/schematics/farms/" + world.getName();
-//            return path;
-//        }
-//        catch(IOException e) {
-//            throw new RaidCraftException("Schematic Ordner konnte nicht geöffnet werden!");
-//        }
-
-        String path = "./../../schematics/farms/" + world.getName();
-        return path;
+        try {
+            String path = plugin.getDataFolder().getCanonicalPath() + "/schematics/" + world.getName();
+            return path;
+        }
+        catch(IOException e) {
+            throw new RaidCraftException("Schematic Ordner konnte nicht geöffnet werden!");
+        }
     }
 
     public File getSchematicDir(World world) throws RaidCraftException {
