@@ -33,6 +33,11 @@ public class RemoveFarmMaterialAction extends AbstractAction {
             return;
         }
 
+        if(materialSection.getKeys(false).size() == 1) {
+            conversation.getPlayer().sendMessage(ChatColor.AQUA + "Das letzte Material kann nicht entfernt werden!");
+            return;
+        }
+
         for(String material : materialSection.getKeys(false)) {
 
             if(ItemUtils.getItem(material) == inputMaterial) {
