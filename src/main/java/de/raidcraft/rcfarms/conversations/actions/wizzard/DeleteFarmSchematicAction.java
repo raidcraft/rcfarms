@@ -14,8 +14,8 @@ import org.bukkit.ChatColor;
 /**
  * @author Philip Urban
  */
-@ActionInformation(name = "UPDATE_FARM_SCHEMATIC")
-public class UpgradeFarmSchematicAction extends AbstractAction {
+@ActionInformation(name = "DELETE_FARM_SCHEMATIC")
+public class DeleteFarmSchematicAction extends AbstractAction {
 
     @Override
     public void run(Conversation conversation, ActionArgumentList args) throws ActionArgumentException {
@@ -32,10 +32,14 @@ public class UpgradeFarmSchematicAction extends AbstractAction {
             conversation.getPlayer().sendMessage(ChatColor.RED + "Kein Upgrade-Level gewählt! Fehler bitte melden!");
             return;
         }
-
+        
         int upgradeLevel = (int)conversation.get("farm_level");
+        if(upgradeLevel == 0) {
+            conversation.getPlayer().sendMessage(ChatColor.RED + "Upgrade-Level darf nicht 0 sein!");
+            return;
+        }
         try {
-            RaidCraft.getComponent(RCFarmsPlugin.class).getSchematicManager().createSchematic(tFarm, upgradeLevel);
+            RaidCraft.getComponent(RCFarmsPlugin.class).getSchematicManager().deleteSchematic(tFarm, upgradeLevel);
         } catch (RaidCraftException e) {
             conversation.getPlayer().sendMessage(ChatColor.RED + e.getMessage());
         }

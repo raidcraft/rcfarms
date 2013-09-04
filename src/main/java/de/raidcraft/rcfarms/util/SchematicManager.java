@@ -101,6 +101,17 @@ public class SchematicManager {
         }
     }
 
+    public void deleteSchematic(TFarm tFarm, int upgradeLevel) throws RaidCraftException {
+
+        String schematicName = getSchematicName(tFarm.getId(), upgradeLevel);
+        String filePath = getSchematicDirPath(tFarm.getBukkitWorld()) + "/" + schematicName;
+        File file = new File(filePath);
+
+        if (!file.delete() ) {
+            throw new RaidCraftException("Can't remove schematic file " + file.getAbsolutePath());
+        }
+    }
+
     public String getSchematicName(int farmId, int upgradeLevel) {
 
         return SCHEMATIC_PREFIX + farmId + "_level_" + upgradeLevel + ".schematic";
