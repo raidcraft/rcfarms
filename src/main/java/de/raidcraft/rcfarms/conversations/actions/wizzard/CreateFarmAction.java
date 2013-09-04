@@ -42,6 +42,7 @@ public class CreateFarmAction extends AbstractAction {
 
         List<Material> materials = new ArrayList<>();
         for(String materialName : materialSection.getKeys(false)) {
+            if(materialSection.get(materialName) == null) continue;
             Material material = Material.valueOf(materialName);
             if(material != null) {
                 materials.add(material);
