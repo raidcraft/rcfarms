@@ -8,7 +8,6 @@ import de.raidcraft.api.config.ConfigurationBase;
 import de.raidcraft.api.config.Setting;
 import de.raidcraft.rcconversations.actions.ActionManager;
 import de.raidcraft.rcfarms.commands.FarmCommands;
-import de.raidcraft.rcfarms.conversations.actions.*;
 import de.raidcraft.rcfarms.conversations.actions.wizzard.*;
 import de.raidcraft.rcfarms.listener.BlockListener;
 import de.raidcraft.rcfarms.tables.TFarm;
@@ -40,11 +39,6 @@ public class RCFarmsPlugin extends BasePlugin {
     public void enable() {
 
         // register conversation actions
-        ActionManager.registerAction(new FindFarmAction());
-        ActionManager.registerAction(new GetFarmPriceAction());
-        ActionManager.registerAction(new BuyFarmAction());
-        ActionManager.registerAction(new IsForSaleAction());
-        ActionManager.registerAction(new IsFarmOwnerAction());
         // wizard actions
         ActionManager.registerAction(new AddFarmMaterialAction());
         ActionManager.registerAction(new AddFarmNameAction());

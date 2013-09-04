@@ -139,33 +139,6 @@ public class FarmManager {
         return false;
     }
 
-    public double getFarmPrice(TFarm tFarm) {
-
-        return plugin.getConfig().pricePerBlock * plugin.getWorldGuardManager().getFarmVolume(tFarm.getBukkitWorld(), getRegionName(tFarm.getId()));
-    }
-
-    public void buyFarm(String player, String farmId) {
-
-        //TODO: implement
-    }
-
-    public boolean isForSale(String farmId) {
-
-        //TODO: implement
-        return false;
-    }
-
-    public String getFarmOwner(String farmId) {
-
-        //TODO: implement
-        return null;
-    }
-
-    public void dropFarm(String farmId) {
-
-        //TODO: implement
-    }
-
     public String getRegionName(int farmId) {
 
         return plugin.getConfig().farmPrefix + farmId;
