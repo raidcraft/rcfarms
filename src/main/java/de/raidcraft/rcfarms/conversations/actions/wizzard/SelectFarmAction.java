@@ -29,7 +29,7 @@ public class SelectFarmAction extends AbstractAction {
             printError(conversation, "Es wurde keine passende Farm gefunden!");
             return;
         }
-        conversation.set("farm_id", tFarm.getId());
+        conversation.set("farm_id", String.valueOf(tFarm.getId()));
 
         ConfigurationSection materialSection = conversation.createSection("material");
         StringBuilder materialList = new StringBuilder();

@@ -34,5 +34,14 @@ public class AddFarmMaterialAction extends AbstractAction {
             materialSection = conversation.createSection("material");
         }
         materialSection.set(material.name(), true);
+
+        // update material list
+        StringBuilder materialList = new StringBuilder();
+        for(String materialName : materialSection.getKeys(false)) {
+            if(materialSection.get(materialName) == null) continue;
+            if(materialList.length() > 0) materialList.append(", ");
+            materialList.append(ItemUtils.getFriendlyName(ItemUtils.getItem(materialName)));
+        }
+        conversation.set("material_list", materialList.toString());
     }
 }

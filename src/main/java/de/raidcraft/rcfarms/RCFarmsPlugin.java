@@ -51,6 +51,7 @@ public class RCFarmsPlugin extends BasePlugin {
         ActionManager.registerAction(new CreateFarmAction());
         ActionManager.registerAction(new SelectFarmAction());
         ActionManager.registerAction(new RemoveFarmMaterialAction());
+        ActionManager.registerAction(new UpgradeFarmSchematicAction());
 
         // register commands
         registerCommands(FarmCommands.class);
