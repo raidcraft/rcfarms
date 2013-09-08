@@ -21,7 +21,7 @@ public class AddFarmMaterialAction extends AbstractAction {
 
         String input = conversation.getString("input");
         Material material = ItemUtils.getItem(input);
-
+Sch
         if(material == null) {
             conversation.getPlayer().sendMessage(ChatColor.RED + "Unbekanntes Material '" + input + "'! Eingabe wiederholen:");
             conversation.abortActionExecution(true);
