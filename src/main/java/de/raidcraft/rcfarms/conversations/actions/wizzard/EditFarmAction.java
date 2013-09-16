@@ -69,6 +69,9 @@ public class EditFarmAction extends AbstractAction {
         }
 
         RaidCraft.getDatabase(RCFarmsPlugin.class).update(tFarm);
+
+        RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().generateRegion(tFarm);
+
         conversation.getPlayer().sendMessage(ChatColor.GREEN + "Die Farm wurde erfolgreich aktualisiert!");
     }
 
