@@ -75,7 +75,7 @@ public class FarmCommands {
                 throw new CommandException("Kein Bereich markiert!");
             }
 
-            RaidCraft.getConversationProvider().triggerConversation(player, plugin.getConfig().creatingConversationName, new FarmHost(player.getLocation()));
+            RaidCraft.getConversationProvider().triggerConversation(player, new FarmHost(player.getLocation(), plugin.getConfig().creatingConversationName));
         }
 
         @Command(
@@ -88,7 +88,7 @@ public class FarmCommands {
             if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
             Player player = (Player)sender;
 
-            RaidCraft.getConversationProvider().triggerConversation(player, plugin.getConfig().editingConversationName, new FarmHost(player.getLocation()));
+            RaidCraft.getConversationProvider().triggerConversation(player, new FarmHost(player.getLocation(), plugin.getConfig().editingConversationName));
         }
 
         @Command(
