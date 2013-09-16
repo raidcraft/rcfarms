@@ -130,6 +130,20 @@ public class FarmCommands {
         }
 
         @Command(
+                aliases = {"update"},
+                desc = "Updates all farm regions"
+        )
+        @CommandPermissions("rcfarms.admin")
+        public void update(CommandContext args, CommandSender sender) throws CommandException {
+
+            sender.sendMessage(ChatColor.GREEN + "Start farm region update...");
+            for(World world : Bukkit.getWorlds()) {
+                plugin.getFarmManager().generateRegions(world);
+            }
+            sender.sendMessage(ChatColor.GREEN + "Finished farm region update!");
+        }
+
+        @Command(
                 aliases = {"list"},
                 desc = "List all farms"
         )

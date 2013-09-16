@@ -35,7 +35,7 @@ public class FarmManager {
 
     public void generateRegions(World world) {
 
-        Map<String,ProtectedRegion> regions = plugin.getWorldGuard().getRegionManager(world).getRegions();
+        Map<String, ProtectedRegion> regions = plugin.getWorldGuard().getRegionManager(world).getRegions();
         Set<TFarm> farms = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findSet();
         for(TFarm tFarm : farms) {
 
@@ -44,7 +44,10 @@ public class FarmManager {
             if(!keyPoints[0].getWorld().equalsIgnoreCase(world.getName())) continue;
 
             // check if region exists
-            if(regions.containsKey(getRegionName(tFarm.getId()))) continue;
+            String regionName = getRegionName(tFarm.getId());
+            if(regions.containsKey(regionName)) {
+                updateRegionFlags(tFarm, regions.get(regionName));
+            }
 
             // create region
             generateRegion(tFarm);
@@ -54,25 +57,30 @@ public class FarmManager {
     public void generateRegion(TFarm tFarm) {
 
         TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
-        Map<String,ProtectedRegion> regions = plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).getRegions();
+        ProtectedRegion existingRegion = plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).getRegion(getRegionName(tFarm.getId()));
 
         ProtectedRegion region;
         boolean create = false;
-        if(regions.containsKey(getRegionName(tFarm.getId()))) {
-            region = regions.get(getRegionName(tFarm.getId()));
+        if(existingRegion != null) {
+            region = existingRegion;
         } else {
             region = new ProtectedCuboidRegion(getRegionName(tFarm.getId()),
                 new BlockVector(keyPoints[0].getX(), keyPoints[0].getY(), keyPoints[0].getZ()),
                 new BlockVector(keyPoints[1].getX(), keyPoints[1].getY(), keyPoints[1].getZ()));
             create = true;
         }
+        if(create) {
+            plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).addRegion(region);
+        }
+
+        updateRegionFlags(tFarm, region);
+    }
+
+    private void updateRegionFlags(TFarm tFarm, ProtectedRegion region) {
 
         region.setFlag(DefaultFlag.BUILD, StateFlag.State.ALLOW);
         region.setFlag(DefaultFlag.GREET_MESSAGE, getWelcomeMessage(tFarm));
         region.setFlag(DefaultFlag.FAREWELL_MESSAGE, getFarewellMessage(tFarm));
-        if(create) {
-            plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).addRegion(region);
-        }
     }
 
     public void deleteFarm(String farmKeyword) throws RaidCraftException {
