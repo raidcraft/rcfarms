@@ -38,7 +38,7 @@ public class FarmManager {
         Map<String, ProtectedRegion> regions = plugin.getWorldGuard().getRegionManager(world).getRegions();
         Set<TFarm> farms = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class).findSet();
         for(TFarm tFarm : farms) {
-
+            tFarm.loadChildren();
             TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
             // check world
             if(!keyPoints[0].getWorld().equalsIgnoreCase(world.getName())) continue;
