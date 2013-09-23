@@ -49,10 +49,10 @@
             <version>${rc.version}</version>
         </dependency>
         <dependency>
-            <groupId>de.raidcraft</groupId>
-            <artifactId>rcconversations</artifactId>
-            <version>${rc.version}</version>
-        </dependency>
+        <groupId>de.raidcraft</groupId>
+        <artifactId>rcconversations</artifactId>
+        <version>${rc.version}</version>
+    </dependency>
         <dependency>
             <groupId>de.raidcraft</groupId>
             <artifactId>worldcontrol</artifactId>

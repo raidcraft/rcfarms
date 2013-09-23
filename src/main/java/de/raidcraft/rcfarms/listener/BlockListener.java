@@ -5,9 +5,12 @@ import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TMaterial;
 import de.raidcraft.rcfarms.util.WorldGuardManager;
+import de.raidcraft.worldcontrol.WorldControlPlugin;
+import de.raidcraft.worldcontrol.restricteditem.RestrictedItem;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -59,6 +62,20 @@ public class BlockListener implements Listener {
                 break;
             }
         }
+        if(!found) {
+            for(RestrictedItem restrictedItem : RaidCraft.getComponent(WorldControlPlugin.class).getRestrictedItemManager().getRestrictedItems().values()) {
+                if(!restrictedItem.canBlockBreak()) continue;
+                if(restrictedItem.getMaterial() == event.getBlock().getType()) {
+                    if (!restrictedItem.canDropItem()) {
+                        event.getBlock().setType(Material.AIR); // remove block but don't spawn an item
+                        event.setCancelled(true);
+                    }
+                    found = true;
+                    break;
+                }
+            }
+        }
+
         if(!found) {
             event.setCancelled(true);
             event.getPlayer().sendMessage(ChatColor.RED + "Dieses Material kannst du in dieser Farm nicht abbauen!");
