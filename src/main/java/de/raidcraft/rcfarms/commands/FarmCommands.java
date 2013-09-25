@@ -56,6 +56,14 @@ public class FarmCommands {
         @CommandPermissions("rcfarms.admin")
         public void reload(CommandContext args, CommandSender sender) {
 
+            // refresh farm marker
+            for(World world : Bukkit.getWorlds()) {
+                for(TFarm tFarm : RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().getFarms(world.getName())) {
+                    tFarm.loadChildren();
+                    plugin.getDynmapManager().addFarmMarker(tFarm);
+                }
+            }
+
             plugin.reload();
             sender.sendMessage(ChatColor.GREEN + "Die Config wurde neugeladen.");
         }
