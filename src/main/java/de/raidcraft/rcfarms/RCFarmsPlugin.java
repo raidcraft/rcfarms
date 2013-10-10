@@ -105,6 +105,8 @@ public class RCFarmsPlugin extends BasePlugin {
 
     @Override
     public void disable() {
+
+        worldGuardManager.save();
     }
 
     public LocalConfiguration getConfig() {
