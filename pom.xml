@@ -21,12 +21,12 @@
     <groupId>de.raidcraft</groupId>
     <artifactId>farms</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.6-SNAPSHOT</version>
+    <version>1.1.6</version>
     <name>RCFarms</name>
 
     <scm>
         <developerConnection>scm:git:ssh://git@raid-craft.de:22109/raid-craft-de/rcfarms.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>farms-1.1.6</tag>
     </scm>
 
     <parent>
