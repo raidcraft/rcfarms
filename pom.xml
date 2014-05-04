@@ -25,7 +25,7 @@
     <name>RCFarms</name>
 
     <scm>
-        <developerConnection>scm:git:ssh://git@raid-craft.de:22109/raid-craft-de/${project.artifactId}.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@raid-craft.de:22109/raid-craft-de/rcfarms.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
