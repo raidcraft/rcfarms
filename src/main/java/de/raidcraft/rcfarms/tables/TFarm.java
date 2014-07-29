@@ -94,7 +94,12 @@ public class TFarm {
     public UUID getCreatorId() {
 
         if (creatorId == null) {
+            if(getCreator() == null) {
+                RaidCraft.LOGGER.warning("Cannot translate creator name to uuid for farm id: " + getId());
+                return null;
+            }
             creatorId = UUIDUtil.convertPlayer(getCreator());
+            setCreatorId(creatorId);
         }
         return this.creatorId;
     }
