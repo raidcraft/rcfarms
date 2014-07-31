@@ -21,39 +21,25 @@ import java.util.UUID;
 /**
  * @author Philip Urban
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "rcfarms_farms")
 public class TFarm {
 
-    @Setter
-    @Getter
     @Id
     private int id;
-    @Setter
-    @Getter
     private String name;
-    @Setter
-    @Getter
     private Timestamp creationDate;
-    @Setter
     private UUID creatorId;
-
     private String creator;
-    @Setter
-    @Getter
     private String world;
-    @Setter
-    @Getter
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "farm_id")
     private Set<TMaterial> materials;
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "farm_id")
-    @Setter
-    @Getter
     private Set<TFarmLocation> keyPoints;
-    @Setter
-    @Getter
     private Timestamp lastRegeneration;
 
 
