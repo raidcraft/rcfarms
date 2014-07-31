@@ -2,13 +2,22 @@ package de.raidcraft.rcfarms.tables;
 
 import de.raidcraft.RaidCraft;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
+import de.raidcraft.util.UUIDUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author Philip Urban
@@ -17,91 +26,43 @@ import java.util.Set;
 @Table(name = "rcfarms_farms")
 public class TFarm {
 
+    @Setter
+    @Getter
     @Id
     private int id;
+    @Setter
+    @Getter
     private String name;
+    @Setter
+    @Getter
     private Timestamp creationDate;
+    @Setter
+    private UUID creatorId;
+
     private String creator;
+    @Setter
+    @Getter
     private String world;
+    @Setter
+    @Getter
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "farm_id")
     private Set<TMaterial> materials;
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "farm_id")
+    @Setter
+    @Getter
     private Set<TFarmLocation> keyPoints;
+    @Setter
+    @Getter
     private Timestamp lastRegeneration;
 
-    public int getId() {
-
-        return id;
-    }
-
-    public void setId(int id) {
-
-        this.id = id;
-    }
-
-    public String getName() {
-
-        return name;
-    }
-
-    public void setName(String name) {
-
-        this.name = name;
-    }
-
-    public Timestamp getCreationDate() {
-
-        return creationDate;
-    }
-
-    public void setCreationDate(Timestamp creationDate) {
-
-        this.creationDate = creationDate;
-    }
-
-    public String getCreator() {
-
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-
-        this.creator = creator;
-    }
-
-    public String getWorld() {
-
-        return world;
-    }
-
-    public void setWorld(String world) {
-
-        this.world = world;
-    }
-
-    public Set<TMaterial> getMaterials() {
-
-        return materials;
-    }
-
-    public void setMaterials(Set<TMaterial> materials) {
-
-        this.materials = materials;
-    }
 
     public void addMaterial(TMaterial tMaterial) {
-
-        if(materials == null) {
+        if (materials == null) {
             materials = new HashSet<>();
         }
         materials.add(tMaterial);
-    }
-
-    public Set<TFarmLocation> getKeyPoints() {
-
-        return keyPoints;
     }
 
     public TFarmLocation[] getKeyPointArray() {
@@ -109,27 +70,12 @@ public class TFarm {
         return keyPoints.toArray(new TFarmLocation[keyPoints.size()]);
     }
 
-    public void setKeyPoints(Set<TFarmLocation> keyPoints) {
-
-        this.keyPoints = keyPoints;
-    }
-
     public void addKeyPoint(TFarmLocation keyPoint) {
 
-        if(keyPoints == null) {
+        if (keyPoints == null) {
             keyPoints = new HashSet<>();
         }
         keyPoints.add(keyPoint);
-    }
-
-    public Timestamp getLastRegeneration() {
-
-        return lastRegeneration;
-    }
-
-    public void setLastRegeneration(Timestamp lastRegeneration) {
-
-        this.lastRegeneration = lastRegeneration;
     }
 
     public void loadChildren() {
@@ -144,19 +90,45 @@ public class TFarm {
         return Bukkit.getWorld(keyPoints[0].getWorld());
     }
 
-    public boolean isPlayerInside() {
+    // TODO: UUID
+    public UUID getCreatorId() {
 
+        if (creatorId == null) {
+            if(getCreator() == null) {
+                RaidCraft.LOGGER.warning("Cannot translate creator name to uuid for farm id: " + getId());
+                return null;
+            }
+            creatorId = UUIDUtil.convertPlayer(getCreator());
+            setCreatorId(creatorId);
+        }
+        return this.creatorId;
+    }
+
+    @Deprecated
+    public String getCreator() {
+
+        return creator;
+    }
+
+    @Deprecated
+    public void setCreator(String creator) {
+
+        this.creator = creator;
+    }
+
+    public boolean isPlayerInside() {
+        // TODO: finish it
         // TODO check take to much time
-//        TFarmLocation[] kp = getKeyPointArray();
-//
-//        for(Player player : Bukkit.getOnlinePlayers()) {
-//            Location loc = player.getLocation();
-//            if(loc.getBlockX() >= Math.min(kp[0].getX(), kp[1].getX()) && loc.getBlockX() <= Math.max(kp[0].getX(), kp[1].getX())
-//                    && loc.getBlockY() >= Math.min(kp[0].getY(), kp[1].getY()) && loc.getBlockY() <= Math.max(kp[0].getY(), kp[1].getY())
-//                    && loc.getBlockZ() >= Math.min(kp[0].getZ(), kp[1].getZ()) && loc.getBlockZ() <= Math.max(kp[0].getZ(), kp[1].getZ())) {
-//                return true;
-//            }
-//        }
+        //        TFarmLocation[] kp = getKeyPointArray();
+        //
+        //        for(Player player : Bukkit.getOnlinePlayers()) {
+        //            Location loc = player.getLocation();
+        //            if(loc.getBlockX() >= Math.min(kp[0].getX(), kp[1].getX()) && loc.getBlockX() <= Math.max(kp[0].getX(), kp[1].getX())
+        //                    && loc.getBlockY() >= Math.min(kp[0].getY(), kp[1].getY()) && loc.getBlockY() <= Math.max(kp[0].getY(), kp[1].getY())
+        //                    && loc.getBlockZ() >= Math.min(kp[0].getZ(), kp[1].getZ()) && loc.getBlockZ() <= Math.max(kp[0].getZ(), kp[1].getZ())) {
+        //                return true;
+        //            }
+        //        }
         return false;
     }
 }

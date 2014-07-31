@@ -99,7 +99,6 @@ public class RCFarmsPlugin extends BasePlugin {
         databases.add(TFarm.class);
         databases.add(TFarmLocation.class);
         databases.add(TMaterial.class);
-        //databases.add(TFarmTenant.class);
         return databases;
     }
 

@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author Philip Urban
@@ -20,7 +21,7 @@ public class FarmBuilder {
 
     private String name;
     private Timestamp creationDate;
-    private String creator;
+    private UUID creator;
     private String world;
     private Set<Material> materials = new HashSet<>();
     private Location minimumPoint;
@@ -55,7 +56,7 @@ public class FarmBuilder {
         tFarm.setName(name);
         tFarm.setCreationDate(new Timestamp(System.currentTimeMillis()));
         tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
-        tFarm.setCreator(creator);
+        tFarm.setCreatorId(creator);
         tFarm.setWorld(world);
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
 
@@ -89,7 +90,7 @@ public class FarmBuilder {
         return this;
     }
 
-    public FarmBuilder setCreator(String creator) {
+    public FarmBuilder setCreator(UUID creator) {
 
         this.creator = creator;
         return this;
