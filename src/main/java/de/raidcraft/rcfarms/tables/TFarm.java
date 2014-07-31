@@ -2,7 +2,6 @@ package de.raidcraft.rcfarms.tables;
 
 import de.raidcraft.RaidCraft;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
-import de.raidcraft.util.UUIDUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -88,20 +87,6 @@ public class TFarm {
 
         TFarmLocation[] keyPoints = getKeyPointArray();
         return Bukkit.getWorld(keyPoints[0].getWorld());
-    }
-
-    // TODO: UUID
-    public UUID getCreatorId() {
-
-        if (creatorId == null) {
-            if(getCreator() == null) {
-                RaidCraft.LOGGER.warning("Cannot translate creator name to uuid for farm id: " + getId());
-                return null;
-            }
-            creatorId = UUIDUtil.convertPlayer(getCreator());
-            setCreatorId(creatorId);
-        }
-        return this.creatorId;
     }
 
     @Deprecated
