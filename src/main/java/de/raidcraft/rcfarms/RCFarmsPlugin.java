@@ -8,7 +8,14 @@ import de.raidcraft.api.config.ConfigurationBase;
 import de.raidcraft.api.config.Setting;
 import de.raidcraft.rcconversations.actions.ActionManager;
 import de.raidcraft.rcfarms.commands.FarmCommands;
-import de.raidcraft.rcfarms.conversations.actions.wizzard.*;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.AddFarmMaterialAction;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.AddFarmNameAction;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.CreateFarmAction;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.DeleteFarmSchematicAction;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.EditFarmAction;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.RemoveFarmMaterialAction;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.SelectFarmAction;
+import de.raidcraft.rcfarms.conversations.actions.wizzard.UpgradeFarmSchematicAction;
 import de.raidcraft.rcfarms.listener.BlockListener;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
@@ -50,7 +57,7 @@ public class RCFarmsPlugin extends BasePlugin {
         ActionManager.registerAction(new EditFarmAction());
 
         // register commands
-        registerCommands(FarmCommands.class);
+        registerCommands(FarmCommands.class, getName());
 
         // register listener
         registerEvents(new BlockListener());
