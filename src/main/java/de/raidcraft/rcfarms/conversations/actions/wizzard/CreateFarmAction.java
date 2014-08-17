@@ -64,7 +64,7 @@ public class CreateFarmAction extends AbstractAction {
         // create farm
         FarmBuilder farmBuilder = new FarmBuilder();
         farmBuilder.setName(farmName);
-        farmBuilder.setCreator(conversation.getPlayer().getName());
+        farmBuilder.setCreator(conversation.getPlayer().getUniqueId());
         farmBuilder.setWorld(conversation.getPlayer().getWorld().getName());
         farmBuilder.addMaterials(materials);
         farmBuilder.setMinimumPoint(selection.getMinimumPoint());

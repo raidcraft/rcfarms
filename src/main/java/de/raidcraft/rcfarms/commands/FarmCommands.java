@@ -1,6 +1,10 @@
 package de.raidcraft.rcfarms.commands;
 
-import com.sk89q.minecraft.util.commands.*;
+import com.sk89q.minecraft.util.commands.Command;
+import com.sk89q.minecraft.util.commands.CommandContext;
+import com.sk89q.minecraft.util.commands.CommandException;
+import com.sk89q.minecraft.util.commands.CommandPermissions;
+import com.sk89q.minecraft.util.commands.NestedCommand;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
@@ -9,6 +13,7 @@ import de.raidcraft.rcfarms.conversations.host.FarmHost;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
+import de.raidcraft.util.CommandUtil;
 import de.raidcraft.util.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,6 +43,7 @@ public class FarmCommands {
     )
     @NestedCommand(value = NestedCommands.class)
     public void farms(CommandContext args, CommandSender sender) {
+
     }
 
     public static class NestedCommands {
@@ -57,8 +63,8 @@ public class FarmCommands {
         public void reload(CommandContext args, CommandSender sender) {
 
             // refresh farm marker
-            for(World world : Bukkit.getWorlds()) {
-                for(TFarm tFarm : RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().getFarms(world.getName())) {
+            for (World world : Bukkit.getWorlds()) {
+                for (TFarm tFarm : RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().getFarms(world.getName())) {
                     tFarm.loadChildren();
                     plugin.getDynmapManager().addFarmMarker(tFarm);
                 }
@@ -75,11 +81,11 @@ public class FarmCommands {
         @CommandPermissions("rcfarms.admin")
         public void create(CommandContext args, CommandSender sender) throws CommandException {
 
-            if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
-            Player player = (Player)sender;
+            if (sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
+            Player player = (Player) sender;
 
             Selection selection = plugin.getWorldEdit().getSelection(player);
-            if(selection == null || selection.getMinimumPoint() == null || selection.getMaximumPoint() == null) {
+            if (selection == null || selection.getMinimumPoint() == null || selection.getMaximumPoint() == null) {
                 throw new CommandException("Kein Bereich markiert!");
             }
 
@@ -93,8 +99,8 @@ public class FarmCommands {
         @CommandPermissions("rcfarms.admin")
         public void edit(CommandContext args, CommandSender sender) throws CommandException {
 
-            if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
-            Player player = (Player)sender;
+            if (sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
+            Player player = (Player) sender;
 
             RaidCraft.getConversationProvider().triggerConversation(player, new FarmHost(player.getLocation(), plugin.getConfig().editingConversationName));
         }
@@ -126,9 +132,9 @@ public class FarmCommands {
             sender.sendMessage(ChatColor.GREEN + "Start regeneration check...");
             int regenerated = 0;
             int farmCount = 0;
-            for(World world : Bukkit.getWorlds()) {
-                for(TFarm tFarm : plugin.getFarmManager().getFarms(world.getName())) {
-                    if(plugin.getFarmManager().checkForRegeneration(tFarm)) {
+            for (World world : Bukkit.getWorlds()) {
+                for (TFarm tFarm : plugin.getFarmManager().getFarms(world.getName())) {
+                    if (plugin.getFarmManager().checkForRegeneration(tFarm)) {
                         regenerated++;
                     }
                     farmCount++;
@@ -145,7 +151,7 @@ public class FarmCommands {
         public void update(CommandContext args, CommandSender sender) throws CommandException {
 
             sender.sendMessage(ChatColor.GREEN + "Start farm region update...");
-            for(World world : Bukkit.getWorlds()) {
+            for (World world : Bukkit.getWorlds()) {
                 plugin.getFarmManager().generateRegions(world);
             }
             sender.sendMessage(ChatColor.GREEN + "Finished farm region update!");
@@ -157,12 +163,12 @@ public class FarmCommands {
         )
         public void list(CommandContext args, CommandSender sender) throws CommandException {
 
-            if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
-            Player player = (Player)sender;
+            if (sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
+            Player player = (Player) sender;
 
             StringBuilder farmNameList = new StringBuilder();
-            for(TFarm tFarm : plugin.getFarmManager().getFarms(player.getLocation().getWorld().getName())) {
-                if(farmNameList.length() > 0) farmNameList.append(ChatColor.WHITE).append(", ");
+            for (TFarm tFarm : plugin.getFarmManager().getFarms(player.getLocation().getWorld().getName())) {
+                if (farmNameList.length() > 0) farmNameList.append(ChatColor.WHITE).append(", ");
                 farmNameList.append(ChatColor.YELLOW).append(tFarm.getName()).append(" (").append(tFarm.getId()).append(")");
             }
             sender.sendMessage(ChatColor.GREEN + "Alle verfügbaren Farmen:");
@@ -177,12 +183,12 @@ public class FarmCommands {
         public void info(CommandContext args, CommandSender sender) throws CommandException {
 
             TFarm tFarm = plugin.getFarmManager().getFarm(args.getString(0));
-            if(tFarm == null) {
+            if (tFarm == null) {
                 throw new CommandException("Die Farm '" + args.getString(0) + "' wurde nicht gefunden! (ID oder Name möglich)");
             }
             StringBuilder materialList = new StringBuilder();
-            for(TMaterial tMaterial : tFarm.getMaterials()) {
-                if(materialList.length() > 0) materialList.append(ChatColor.WHITE).append(", ");
+            for (TMaterial tMaterial : tFarm.getMaterials()) {
+                if (materialList.length() > 0) materialList.append(ChatColor.WHITE).append(", ");
                 materialList.append(ChatColor.YELLOW).append(ItemUtils.getFriendlyName(tMaterial.getBukkitMaterial()));
             }
 
@@ -201,26 +207,17 @@ public class FarmCommands {
         @CommandPermissions("rcfarms.admin")
         public void warp(CommandContext args, CommandSender sender) throws CommandException {
 
-            Player player;
-            if(args.argsLength() < 2) {
-                if(sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
-                player = (Player)sender;
-            }
-            else {
-                player = Bukkit.getPlayer(args.getString(1));
-                if(player == null) {
-                    throw new CommandException("Keinen passenden Spieler gefunden!");
-                }
-            }
-
             TFarm tFarm = plugin.getFarmManager().getFarm(args.getString(0));
-            if(tFarm == null) {
-                throw new CommandException("Die Farm '" + args.getString(0) + "' wurde nicht gefunden! (ID oder Name möglich)");
+            if (tFarm == null) {
+                throw new CommandException("Die Farm '" + args.getString(0)
+                        + "' wurde nicht gefunden! (ID oder Name möglich)");
             }
-
             TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
-            player.teleport(new Location(tFarm.getBukkitWorld(), keyPoints[0].getX(), keyPoints[0].getY() + 20, keyPoints[0].getZ()));
-            sender.sendMessage(ChatColor.GREEN + "Du wurdest zu Farm '" + tFarm.getName() + "' teleportiert!");
+            Location to = new Location(tFarm.getBukkitWorld(), keyPoints[0].getX(),
+                    keyPoints[0].getY() + 20,
+                    keyPoints[0].getZ());
+            Player player = CommandUtil.warp(args, sender, to, 1);
+            player.sendMessage(ChatColor.GREEN + "Du wurdest zu Farm '" + tFarm.getName() + "' teleportiert!");
         }
     }
 }
