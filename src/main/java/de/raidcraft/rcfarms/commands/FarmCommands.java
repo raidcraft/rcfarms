@@ -13,8 +13,8 @@ import de.raidcraft.rcfarms.conversations.host.FarmHost;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
+import de.raidcraft.util.CommandUtil;
 import de.raidcraft.util.ItemUtils;
-import de.raidcraft.util.UUIDUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,8 +22,6 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 /**
  * 17.12.11 - 11:30
@@ -209,29 +207,17 @@ public class FarmCommands {
         @CommandPermissions("rcfarms.admin")
         public void warp(CommandContext args, CommandSender sender) throws CommandException {
 
-            Player player;
-            if (args.argsLength() < 2) {
-                if (sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
-                player = (Player) sender;
-            } else {
-                UUID uuid = UUIDUtil.convertPlayer(args.getString(1));
-                if (uuid == null) {
-                    throw new CommandException("Keinen passenden Spieler gefunden!");
-                }
-                player = Bukkit.getPlayer(uuid);
-                if (player == null) {
-                    throw new CommandException("Spieler ist nicht online!");
-                }
-            }
-
             TFarm tFarm = plugin.getFarmManager().getFarm(args.getString(0));
             if (tFarm == null) {
-                throw new CommandException("Die Farm '" + args.getString(0) + "' wurde nicht gefunden! (ID oder Name möglich)");
+                throw new CommandException("Die Farm '" + args.getString(0)
+                        + "' wurde nicht gefunden! (ID oder Name möglich)");
             }
-
             TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
-            player.teleport(new Location(tFarm.getBukkitWorld(), keyPoints[0].getX(), keyPoints[0].getY() + 20, keyPoints[0].getZ()));
-            sender.sendMessage(ChatColor.GREEN + "Du wurdest zu Farm '" + tFarm.getName() + "' teleportiert!");
+            Location to = new Location(tFarm.getBukkitWorld(), keyPoints[0].getX(),
+                    keyPoints[0].getY() + 20,
+                    keyPoints[0].getZ());
+            Player player = CommandUtil.warp(args, sender, to, 1);
+            player.sendMessage(ChatColor.GREEN + "Du wurdest zu Farm '" + tFarm.getName() + "' teleportiert!");
         }
     }
 }
