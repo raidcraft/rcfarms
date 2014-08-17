@@ -57,7 +57,7 @@ public class RCFarmsPlugin extends BasePlugin {
         ActionManager.registerAction(new EditFarmAction());
 
         // register commands
-        registerCommands(FarmCommands.class, getName());
+        registerCommands(FarmCommands.class);
 
         // register listener
         registerEvents(new BlockListener());
