@@ -1,6 +1,6 @@
 package de.raidcraft.rcfarms.conversations.host;
 
-import de.raidcraft.api.conversations.AbstractConversationHost;
+import de.raidcraft.api.conversations.legacy.AbstractConversationHost;
 import org.bukkit.Location;
 
 /**
