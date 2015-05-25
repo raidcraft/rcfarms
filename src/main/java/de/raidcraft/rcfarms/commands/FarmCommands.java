@@ -144,6 +144,29 @@ public class FarmCommands {
         }
 
         @Command(
+                aliases = {"regenerate"},
+                desc = "Force regeneration of specific farm",
+                min = 1,
+                usage = "<farm id/name>"
+        )
+        @CommandPermissions("rcfarms.admin")
+        public void regenerate(CommandContext args, CommandSender sender) throws CommandException {
+
+            try {
+                TFarm farm = plugin.getFarmManager().getFarm(args.getString(0));
+                if(farm == null)
+                {
+                    sender.sendMessage(ChatColor.RED + "Es wurde keine Farm mit der ID oder Name '" + args.getString(0) + "' gefunden!");
+                }
+                sender.sendMessage(ChatColor.GREEN + "Die Farm " + farm.getName() + " wird regeneriert...");
+                plugin.getFarmManager().regenerateFarm(args.getString(0));
+                sender.sendMessage(ChatColor.GREEN + "Die Regeneration der Farm " + farm.getName() + " war erfolgreich!");
+            } catch (RaidCraftException e) {
+                throw new CommandException(e.getMessage());
+            }
+        }
+
+        @Command(
                 aliases = {"update"},
                 desc = "Updates all farm regions"
         )

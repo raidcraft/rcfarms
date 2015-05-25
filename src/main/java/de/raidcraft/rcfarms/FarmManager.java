@@ -88,7 +88,7 @@ public class FarmManager {
 
         TFarm tFarm = getFarm(farmKeyword);
         if(tFarm == null) {
-            throw new RaidCraftException("Es gibt keine Farm mit dieser Id");
+            throw new RaidCraftException("Es gibt keine Farm mit dieser ID");
         }
 
         // delete schematics
@@ -104,9 +104,12 @@ public class FarmManager {
         plugin.getDynmapManager().removeMarker(tFarm);
     }
 
-    public void regenerateFarm(String farmId) {
+    public void regenerateFarm(String farmKeyword) throws RaidCraftException {
 
-        TFarm tFarm = RaidCraft.getDatabase(RCFarmsPlugin.class).find(TFarm.class, farmId);
+        TFarm tFarm = getFarm(farmKeyword);
+        if(tFarm == null) {
+            throw new RaidCraftException("Es gibt keine Farm mit dieser ID");
+        }
         regenerateFarm(tFarm);
     }
 

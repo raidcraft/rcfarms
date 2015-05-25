@@ -26,7 +26,9 @@ import de.raidcraft.rcfarms.util.WorldGuardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -79,10 +81,19 @@ public class RCFarmsPlugin extends BasePlugin {
             farmManager.generateRegions(world);
         }
 
-        // check each hour all farms for regeneration
+        // check all farms each 30min for regeneration (only between 4am and 7am)
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
+
+                // get current time
+                Calendar cal = Calendar.getInstance();
+                cal.getTime();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH");
+                if(Integer.parseInt(sdf.format(cal.getTime())) < 4 || Integer.parseInt(sdf.format(cal.getTime())) > 7) {
+                    return;
+                }
+
                 for(World world : Bukkit.getWorlds()) {
                     for(TFarm tFarm : RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().getFarms(world.getName())) {
                         tFarm.loadChildren();
@@ -90,7 +101,7 @@ public class RCFarmsPlugin extends BasePlugin {
                     }
                 }
             }
-        }, 0, 60 * 60 * 20);
+        }, 0, 30 * 60 * 20);
     }
 
     @Override
