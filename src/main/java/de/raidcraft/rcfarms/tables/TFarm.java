@@ -2,6 +2,7 @@ package de.raidcraft.rcfarms.tables;
 
 import de.raidcraft.RaidCraft;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
+import de.raidcraft.rcfarms.api.Farm;
 import de.raidcraft.rcfarms.api.farm.FarmTemp;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "rcfarms_farms")
-public class TFarm implements FarmTemp {
+public class TFarm implements Farm {
 
     @Id
     private int id;

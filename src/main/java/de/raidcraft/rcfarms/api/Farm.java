@@ -1,4 +1,5 @@
-package de.raidcraft.rcfarms.api.farm;
+package de.raidcraft.rcfarms.api;
+
 
 import de.raidcraft.rcfarms.api.location.FarmLocation;
 import de.raidcraft.rcfarms.api.material.FarmMaterial;
