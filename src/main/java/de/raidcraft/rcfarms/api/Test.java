@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * Created by Philip on 31.05.2015.
  */
-public interface Farm {
+public interface Test {
 
     public String getName();
 
