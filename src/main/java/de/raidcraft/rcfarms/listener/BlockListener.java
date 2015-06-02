@@ -56,11 +56,15 @@ public class BlockListener implements Listener {
         tFarm.loadChildren();
 
         boolean found = false;
-        for(TMaterial tMaterial : tFarm.getMaterials()) {
-            if(tMaterial.getBukkitMaterial() == event.getBlock().getType()) {
-                found = true;
-                break;
+        if(!tFarm.isAllMaterialFarm()) {
+            for (TMaterial tMaterial : tFarm.getMaterials()) {
+                if (tMaterial.getBukkitMaterial() == event.getBlock().getType()) {
+                    found = true;
+                    break;
+                }
             }
+        } else {
+            found = true;
         }
         if(!found) {
             for(RestrictedItem restrictedItem : RaidCraft.getComponent(WorldControlPlugin.class).getRestrictedItemManager().getRestrictedItems().values()) {
