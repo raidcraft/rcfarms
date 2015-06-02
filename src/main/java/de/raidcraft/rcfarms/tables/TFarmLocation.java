@@ -1,6 +1,7 @@
 package de.raidcraft.rcfarms.tables;
 
 import com.sk89q.worldedit.Vector;
+import de.raidcraft.rcfarms.api.location.FarmLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -14,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "rcfarms_locations")
-public class TFarmLocation {
+public class TFarmLocation implements FarmLocation {
 
     @Id
     private int id;
@@ -58,7 +59,8 @@ public class TFarmLocation {
         this.farm = farm;
     }
 
-    public String getWorld() {
+    @Override
+    public String getWorldName() {
 
         return world;
     }

@@ -1,5 +1,6 @@
 package de.raidcraft.rcfarms.tables;
 
+import de.raidcraft.rcfarms.api.material.FarmMaterial;
 import de.raidcraft.util.ItemUtils;
 import org.bukkit.Material;
 
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "rcfarms_materials")
-public class TMaterial {
+public class TMaterial implements FarmMaterial {
 
     @Id
     private int id;
@@ -41,6 +42,7 @@ public class TMaterial {
         this.id = id;
     }
 
+    @Override
     public String getName() {
 
         return name;
@@ -61,6 +63,7 @@ public class TMaterial {
         this.farm = farm;
     }
 
+    @Override
     public Material getBukkitMaterial() {
 
         return ItemUtils.getItem(name);

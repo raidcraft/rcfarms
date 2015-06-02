@@ -53,6 +53,8 @@ public class CreateFarmAction extends AbstractAction {
             return;
         }
 
+        boolean allMaterials = conversation.getBoolean("all_materials", false);
+
         Selection selection = RaidCraft.getComponent(RCFarmsPlugin.class).getWorldEdit().getSelection(conversation.getPlayer());
 
         if(selection == null || selection.getMaximumPoint() == null || selection.getMinimumPoint() == null) {
@@ -67,6 +69,7 @@ public class CreateFarmAction extends AbstractAction {
         farmBuilder.setCreator(conversation.getPlayer().getUniqueId());
         farmBuilder.setWorld(conversation.getPlayer().getWorld().getName());
         farmBuilder.addMaterials(materials);
+        farmBuilder.setAllMaterials(allMaterials);
         farmBuilder.setMinimumPoint(selection.getMinimumPoint());
         farmBuilder.setMaximumPoint(selection.getMaximumPoint());
         try {

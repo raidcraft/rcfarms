@@ -26,6 +26,7 @@ public class FarmBuilder {
     private Set<Material> materials = new HashSet<>();
     private Location minimumPoint;
     private Location maximumPoint;
+    private boolean allMaterials;
 
     public void createFarm() throws RaidCraftException {
 
@@ -58,6 +59,7 @@ public class FarmBuilder {
         tFarm.setLastRegeneration(new Timestamp(System.currentTimeMillis()));
         tFarm.setCreatorId(creator);
         tFarm.setWorld(world);
+        tFarm.setAllMaterials(allMaterials);
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
 
         // save locations
@@ -123,6 +125,11 @@ public class FarmBuilder {
     public FarmBuilder setMaximumPoint(Location maximumPoint) {
 
         this.maximumPoint = maximumPoint;
+        return this;
+    }
+
+    public FarmBuilder setAllMaterials(boolean allMaterials) {
+        this.allMaterials = allMaterials;
         return this;
     }
 }

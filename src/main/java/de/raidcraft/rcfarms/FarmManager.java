@@ -41,7 +41,7 @@ public class FarmManager {
             tFarm.loadChildren();
             TFarmLocation[] keyPoints = tFarm.getKeyPointArray();
             // check world
-            if(!keyPoints[0].getWorld().equalsIgnoreCase(world.getName())) continue;
+            if(!keyPoints[0].getWorldName().equalsIgnoreCase(world.getName())) continue;
 
             // check if region exists
             String regionName = getRegionName(tFarm.getId());

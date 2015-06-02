@@ -2,6 +2,7 @@ package de.raidcraft.rcfarms.tables;
 
 import de.raidcraft.RaidCraft;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
+import de.raidcraft.rcfarms.api.farm.Farm;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -25,7 +26,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "rcfarms_farms")
-public class TFarm {
+public class TFarm implements Farm {
 
     @Id
     private int id;
@@ -41,6 +42,7 @@ public class TFarm {
     @JoinColumn(name = "farm_id")
     private Set<TFarmLocation> keyPoints;
     private Timestamp lastRegeneration;
+    private boolean allMaterials;
 
 
     public void addMaterial(TMaterial tMaterial) {
@@ -72,7 +74,7 @@ public class TFarm {
     public World getBukkitWorld() {
 
         TFarmLocation[] keyPoints = getKeyPointArray();
-        return Bukkit.getWorld(keyPoints[0].getWorld());
+        return Bukkit.getWorld(keyPoints[0].getWorldName());
     }
 
     @Deprecated
@@ -85,6 +87,31 @@ public class TFarm {
     public void setCreator(String creator) {
 
         this.creator = creator;
+    }
+
+    @Override
+    public Timestamp getCreationTime() {
+        return creationDate;
+    }
+
+    @Override
+    public String getCreatorName() {
+        return creator;
+    }
+
+    @Override
+    public String getWorldName() {
+        return world;
+    }
+
+    @Override
+    public Timestamp getLastRegenerationTime() {
+        return lastRegeneration;
+    }
+
+    @Override
+    public boolean isAllMaterialFarm() {
+        return allMaterials;
     }
 
     public boolean isPlayerInside() {
