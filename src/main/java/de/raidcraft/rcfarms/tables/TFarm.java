@@ -3,7 +3,6 @@ package de.raidcraft.rcfarms.tables;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
 import de.raidcraft.rcfarms.api.Farm;
-import de.raidcraft.rcfarms.api.farm.FarmTemp;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
