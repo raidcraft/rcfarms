@@ -88,6 +88,10 @@ public class TFarm {
         this.creator = creator;
     }
 
+    public String getWorld() {
+        return world;
+    }
+
     public Timestamp getCreationTime() {
         return creationDate;
     }
