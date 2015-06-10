@@ -54,6 +54,7 @@ public class CreateFarmAction extends AbstractAction {
         }
 
         boolean allMaterials = conversation.getBoolean("all_materials", false);
+        long regenerationInterval = conversation.getLong("regeneration_interval", 0);
 
         Selection selection = RaidCraft.getComponent(RCFarmsPlugin.class).getWorldEdit().getSelection(conversation.getPlayer());
 
@@ -70,6 +71,7 @@ public class CreateFarmAction extends AbstractAction {
         farmBuilder.setWorld(conversation.getPlayer().getWorld().getName());
         farmBuilder.addMaterials(materials);
         farmBuilder.setAllMaterials(allMaterials);
+        farmBuilder.setExplicitRegenerationInterval(regenerationInterval);
         farmBuilder.setMinimumPoint(selection.getMinimumPoint());
         farmBuilder.setMaximumPoint(selection.getMaximumPoint());
         try {

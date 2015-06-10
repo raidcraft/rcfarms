@@ -2,6 +2,7 @@ package de.raidcraft.rcfarms;
 
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
+import de.raidcraft.rcfarms.api.location.FarmLocation;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
@@ -27,6 +28,7 @@ public class FarmBuilder {
     private Location minimumPoint;
     private Location maximumPoint;
     private boolean allMaterials;
+    private long explicitRegenerationInterval;
 
     public void createFarm() throws RaidCraftException {
 
@@ -60,6 +62,7 @@ public class FarmBuilder {
         tFarm.setCreatorId(creator);
         tFarm.setWorld(world);
         tFarm.setAllMaterials(allMaterials);
+        tFarm.setExplicitRegenerationInterval(explicitRegenerationInterval);
         RaidCraft.getDatabase(RCFarmsPlugin.class).save(tFarm);
 
         // save locations
@@ -130,6 +133,11 @@ public class FarmBuilder {
 
     public FarmBuilder setAllMaterials(boolean allMaterials) {
         this.allMaterials = allMaterials;
+        return this;
+    }
+
+    public FarmBuilder setExplicitRegenerationInterval(long interval) {
+        this.explicitRegenerationInterval = interval;
         return this;
     }
 }
