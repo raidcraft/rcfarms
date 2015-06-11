@@ -74,7 +74,7 @@ public class TFarm {
     public World getBukkitWorld() {
 
         TFarmLocation[] keyPoints = getKeyPointArray();
-        return Bukkit.getWorld(keyPoints[0].getWorldName());
+        return Bukkit.getWorld(keyPoints[0].getWorld());
     }
 
     @Deprecated

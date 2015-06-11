@@ -5,7 +5,7 @@ package de.raidcraft.rcfarms.api.location;
  */
 public interface FarmLocation {
 
-    public String getWorldName();
+    public String getWorld();
 
     public int getX();
 

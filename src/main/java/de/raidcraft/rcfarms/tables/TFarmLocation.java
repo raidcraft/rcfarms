@@ -60,7 +60,7 @@ public class TFarmLocation implements FarmLocation {
     }
 
     @Override
-    public String getWorldName() {
+    public String getWorld() {
 
         return world;
     }
