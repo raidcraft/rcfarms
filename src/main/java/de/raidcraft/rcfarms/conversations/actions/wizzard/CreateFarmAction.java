@@ -42,16 +42,18 @@ public class CreateFarmAction extends AbstractAction {
         }
 
         List<Material> materials = new ArrayList<>();
-        for(String materialName : materialSection.getKeys(false)) {
-            if(materialSection.get(materialName) == null) continue;
-            Material material = Material.valueOf(materialName);
-            if(material != null) {
-                materials.add(material);
+        if(materialSection != null) {
+            for (String materialName : materialSection.getKeys(false)) {
+                if (materialSection.get(materialName) == null) continue;
+                Material material = Material.valueOf(materialName);
+                if (material != null) {
+                    materials.add(material);
+                }
             }
-        }
-        if(materials.isEmpty() && !allMaterials) {
-            printError(conversation, "Der Farm ist kein gültiges Material zugewiesen!");
-            return;
+            if (materials.isEmpty()) {
+                printError(conversation, "Der Farm ist kein gültiges Material zugewiesen!");
+                return;
+            }
         }
 
         long regenerationInterval = conversation.getLong("regeneration_interval", 0);

@@ -25,6 +25,12 @@ public class SetExplicitRegenerationDelay extends AbstractAction {
             return;
         }
 
+        if(delay_days == 7) {
+            printError(conversation, "Die Regenerationszeit muss mindestens 7 Tage betragen!");
+            return;
+        }
+
+        // delay in seconds
         long delay_seconds = delay_days * 24 * 60 * 60;
 
         conversation.set("regeneration_delay", delay_seconds);

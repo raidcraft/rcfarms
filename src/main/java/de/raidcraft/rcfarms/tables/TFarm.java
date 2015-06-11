@@ -42,6 +42,7 @@ public class TFarm {
     private Set<TFarmLocation> keyPoints;
     private Timestamp lastRegeneration;
     private boolean allMaterials;
+    // in seconds
     private long explicitRegenerationInterval;
 
 

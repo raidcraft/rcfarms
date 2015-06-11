@@ -130,21 +130,37 @@ public class FarmManager {
 
     public boolean checkForRegeneration(TFarm tFarm) {
 
-        for(TMaterial tMaterial : tFarm.getMaterials()) {
-            Material material = ItemUtils.getItem(tMaterial.getName());
-            if(material == null) continue;
+        // check explicit regeneration delay
+        if(tFarm.getExplicitRegenerationInterval() > 0 || tFarm.isAllMaterialFarm())  {
 
-            RestrictedItem restrictedItem = RaidCraft.getComponent(WorldControlPlugin.class)
-                    .getRestrictedItemManager().getRestrictedItem(material);
-            if(restrictedItem == null) continue;
-            if(restrictedItem.getRegenerationTime() < ((System.currentTimeMillis() - tFarm.getLastRegeneration().getTime()) / 1000)) {
+            if (tFarm.getExplicitRegenerationInterval() < ((System.currentTimeMillis() - tFarm.getLastRegeneration().getTime()) / 1000)) {
                 // check if player is inside farm -> abort regeneration
-                if(tFarm.isPlayerInside()) {
-                    continue;
+                if (tFarm.isPlayerInside()) {
+                    return false;
                 }
                 RaidCraft.LOGGER.info("Regenerate farm '" + tFarm.getName() + "' with ID '" + tFarm.getId() + "'");
                 regenerateFarm(tFarm);
                 return true;
+            }
+
+        // check delay of materials
+        } else {
+            for (TMaterial tMaterial : tFarm.getMaterials()) {
+                Material material = ItemUtils.getItem(tMaterial.getName());
+                if (material == null) continue;
+
+                RestrictedItem restrictedItem = RaidCraft.getComponent(WorldControlPlugin.class)
+                        .getRestrictedItemManager().getRestrictedItem(material);
+                if (restrictedItem == null) continue;
+                if (restrictedItem.getRegenerationTime() < ((System.currentTimeMillis() - tFarm.getLastRegeneration().getTime()) / 1000)) {
+                    // check if player is inside farm -> abort regeneration
+                    if (tFarm.isPlayerInside()) {
+                        continue;
+                    }
+                    RaidCraft.LOGGER.info("Regenerate farm '" + tFarm.getName() + "' with ID '" + tFarm.getId() + "'");
+                    regenerateFarm(tFarm);
+                    return true;
+                }
             }
         }
         return false;
