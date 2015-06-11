@@ -45,7 +45,7 @@ public class FarmBuilder {
         }
 
         // check material
-        if(materials.isEmpty()) {
+        if(materials.isEmpty() && !allMaterials) {
             throw new RaidCraftException("Keine Materialien zugewiesen!");
         }
 
