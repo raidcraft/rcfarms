@@ -174,9 +174,13 @@ public class FarmManager {
     public String getWelcomeMessage(TFarm tFarm) {
 
         String materialString = "";
-        for(TMaterial tMaterial : tFarm.getMaterials()) {
-            if(!materialString.isEmpty()) materialString += ChatColor.GOLD + ", ";
-            materialString += ChatColor.DARK_GREEN + ItemUtils.getFriendlyName(tMaterial.getBukkitMaterial(), ItemUtils.Language.GERMAN);
+        if(tFarm.isAllMaterialFarm()) {
+            materialString = ChatColor.DARK_RED + "Alle Materialien!";
+        } else {
+            for (TMaterial tMaterial : tFarm.getMaterials()) {
+                if (!materialString.isEmpty()) materialString += ChatColor.GOLD + ", ";
+                materialString += ChatColor.DARK_GREEN + ItemUtils.getFriendlyName(tMaterial.getBukkitMaterial(), ItemUtils.Language.GERMAN);
+            }
         }
         return ChatColor.GOLD + "Farm '" + tFarm.getName() + "' betreten: " + materialString;
     }
