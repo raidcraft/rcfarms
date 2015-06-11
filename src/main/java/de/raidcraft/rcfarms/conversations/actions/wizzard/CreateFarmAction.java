@@ -27,6 +27,7 @@ public class CreateFarmAction extends AbstractAction {
     public void run(Conversation conversation, ActionArgumentList args) throws ActionArgumentException {
 
         String farmName = conversation.getString("farm_name");
+        boolean allMaterials = conversation.getBoolean("all_materials", false);
 
         if(farmName == null || farmName.isEmpty()) {
             printError(conversation, "Der angegebene Name ist leer!");
@@ -35,7 +36,7 @@ public class CreateFarmAction extends AbstractAction {
 
         ConfigurationSection materialSection = conversation.getConfigurationSection("material");
 
-        if(materialSection == null) {
+        if(materialSection == null && !allMaterials) {
             printError(conversation, "Der Farm ist kein Material zugewiesen!");
             return;
         }
@@ -48,12 +49,11 @@ public class CreateFarmAction extends AbstractAction {
                 materials.add(material);
             }
         }
-        if(materials.isEmpty()) {
+        if(materials.isEmpty() && !allMaterials) {
             printError(conversation, "Der Farm ist kein gültiges Material zugewiesen!");
             return;
         }
 
-        boolean allMaterials = conversation.getBoolean("all_materials", false);
         long regenerationInterval = conversation.getLong("regeneration_interval", 0);
 
         Selection selection = RaidCraft.getComponent(RCFarmsPlugin.class).getWorldEdit().getSelection(conversation.getPlayer());
