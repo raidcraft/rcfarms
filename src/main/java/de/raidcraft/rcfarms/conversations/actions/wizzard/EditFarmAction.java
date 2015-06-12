@@ -37,35 +37,37 @@ public class EditFarmAction extends AbstractAction {
         }
 
         // collect new material
-        ConfigurationSection materialSection = conversation.getConfigurationSection("material");
-        if(materialSection == null) {
-            printError(conversation, "Der Farm ist kein Material zugewiesen!");
-            return;
-        }
-        Set<Material> materials = new HashSet<>();
-        for(String materialName : materialSection.getKeys(false)) {
-            if(materialSection.get(materialName) == null) continue;
-            Material material = Material.valueOf(materialName);
-            if(material != null) {
-                materials.add(material);
+        if(!tFarm.isAllMaterialFarm()) {
+            ConfigurationSection materialSection = conversation.getConfigurationSection("material");
+            if (materialSection == null) {
+                printError(conversation, "Der Farm ist kein Material zugewiesen!");
+                return;
             }
-        }
-        if(materials.isEmpty()) {
-            printError(conversation, "Der Farm ist kein gültiges Material zugewiesen!");
-            return;
-        }
+            Set<Material> materials = new HashSet<>();
+            for (String materialName : materialSection.getKeys(false)) {
+                if (materialSection.get(materialName) == null) continue;
+                Material material = Material.valueOf(materialName);
+                if (material != null) {
+                    materials.add(material);
+                }
+            }
+            if (materials.isEmpty()) {
+                printError(conversation, "Der Farm ist kein gültiges Material zugewiesen!");
+                return;
+            }
 
-        // delete old material
-        for(TMaterial tMaterial : tFarm.getMaterials()) {
-            RaidCraft.getDatabase(RCFarmsPlugin.class).delete(tMaterial);
-        }
-        tFarm.setMaterials(null);
+            // delete old material
+            for (TMaterial tMaterial : tFarm.getMaterials()) {
+                RaidCraft.getDatabase(RCFarmsPlugin.class).delete(tMaterial);
+            }
+            tFarm.setMaterials(null);
 
-        // save new
-        for(Material material : materials) {
-            TMaterial tMaterial = new TMaterial(material.name(), tFarm);
-            RaidCraft.getDatabase(RCFarmsPlugin.class).save(tMaterial);
-            tFarm.addMaterial(tMaterial);
+            // save new
+            for (Material material : materials) {
+                TMaterial tMaterial = new TMaterial(material.name(), tFarm);
+                RaidCraft.getDatabase(RCFarmsPlugin.class).save(tMaterial);
+                tFarm.addMaterial(tMaterial);
+            }
         }
 
         RaidCraft.getDatabase(RCFarmsPlugin.class).update(tFarm);

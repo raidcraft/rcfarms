@@ -20,22 +20,15 @@ public class UpgradeFarmSchematicAction extends AbstractAction {
     @Override
     public void run(Conversation conversation, ActionArgumentList args) throws ActionArgumentException {
 
-        String input = conversation.getString("input");
-
         TFarm tFarm = RaidCraft.getComponent(RCFarmsPlugin.class).getFarmManager().getFarm((String)conversation.get("farm_id"));
         if(tFarm == null) {
             conversation.getPlayer().sendMessage(ChatColor.RED + "Keine Farm selektiert! Fehler bitte melden!");
             return;
         }
 
-        if(conversation.get("farm_level") == null) {
-            conversation.getPlayer().sendMessage(ChatColor.RED + "Kein Upgrade-Level gewählt! Fehler bitte melden!");
-            return;
-        }
-
-        int upgradeLevel = (int)conversation.get("farm_level");
         try {
-            RaidCraft.getComponent(RCFarmsPlugin.class).getSchematicManager().createSchematic(tFarm, upgradeLevel);
+            RaidCraft.getComponent(RCFarmsPlugin.class).getSchematicManager().createSchematic(tFarm, 0);
+            conversation.getPlayer().sendMessage(ChatColor.GREEN + "Farm Schematic wurde aktualisiert!");
         } catch (RaidCraftException e) {
             conversation.getPlayer().sendMessage(ChatColor.RED + e.getMessage());
         }

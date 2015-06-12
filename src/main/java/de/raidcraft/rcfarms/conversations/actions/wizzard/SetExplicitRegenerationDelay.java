@@ -17,23 +17,23 @@ public class SetExplicitRegenerationDelay extends AbstractAction {
     public void run(Conversation conversation, ActionArgumentList args) throws ActionArgumentException {
 
         String input = conversation.getString("input");
-        int delay_days;
+        int interval_days;
         try {
-            delay_days = Integer.valueOf(input);
+            interval_days = Integer.valueOf(input);
         } catch(NumberFormatException e) {
             printError(conversation, "Die Regenerationszeit muss als Zahl in Tagen angegeben werden!");
             return;
         }
 
-        if(delay_days < 7) {
+        if(interval_days < 7) {
             printError(conversation, "Die Regenerationszeit muss mindestens 7 Tage betragen!");
             return;
         }
 
         // delay in seconds
-        long delay_seconds = delay_days * 24 * 60 * 60;
+        long interval_seconds = interval_days * 24 * 60 * 60;
 
-        conversation.set("regeneration_delay", delay_seconds);
+        conversation.set("regeneration_interval", interval_seconds);
     }
 
     private void printError(Conversation conversation, String msg) {

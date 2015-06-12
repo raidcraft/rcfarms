@@ -175,7 +175,7 @@ public class FarmManager {
 
         String materialString = "";
         if(tFarm.isAllMaterialFarm()) {
-            materialString = ChatColor.DARK_RED + "Alle Materialien!";
+            materialString = ChatColor.DARK_AQUA + "Alle Materialien abbaubar!";
         } else {
             for (TMaterial tMaterial : tFarm.getMaterials()) {
                 if (!materialString.isEmpty()) materialString += ChatColor.GOLD + ", ";
