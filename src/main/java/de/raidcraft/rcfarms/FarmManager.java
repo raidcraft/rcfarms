@@ -97,6 +97,9 @@ public class FarmManager {
         // delete region
         plugin.getWorldGuard().getRegionManager(tFarm.getBukkitWorld()).removeRegion(getRegionName(tFarm.getId()));
 
+        // save regions
+        plugin.getWorldGuardManager().save();
+
         // delete database entries
         RaidCraft.getDatabase(RCFarmsPlugin.class).delete(tFarm);
 
