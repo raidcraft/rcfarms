@@ -42,17 +42,17 @@ public class RCFarmsPlugin extends BasePlugin {
 
         // register conversation actions
         // wizard actions
-        ActionManager.registerAction(new AddFarmMaterialAction());
-        ActionManager.registerAction(new AddFarmNameAction());
-        ActionManager.registerAction(new CreateFarmAction());
-        ActionManager.registerAction(new SelectFarmAction());
-        ActionManager.registerAction(new RemoveFarmMaterialAction());
-        ActionManager.registerAction(new UpgradeFarmSchematicAction());
-        ActionManager.registerAction(new DeleteFarmSchematicAction());
-        ActionManager.registerAction(new AllowAllFarmMaterialsAction());
-        ActionManager.registerAction(new DisalowAllFarmMaterialsAction());
-        ActionManager.registerAction(new SetExplicitRegenerationDelay());
-        ActionManager.registerAction(new EditFarmAction());
+//        ActionManager.registerAction(new AddFarmMaterialAction());
+//        ActionManager.registerAction(new AddFarmNameAction());
+//        ActionManager.registerAction(new CreateFarmAction());
+//        ActionManager.registerAction(new SelectFarmAction());
+//        ActionManager.registerAction(new RemoveFarmMaterialAction());
+//        ActionManager.registerAction(new UpgradeFarmSchematicAction());
+//        ActionManager.registerAction(new DeleteFarmSchematicAction());
+//        ActionManager.registerAction(new AllowAllFarmMaterialsAction());
+//        ActionManager.registerAction(new DisalowAllFarmMaterialsAction());
+//        ActionManager.registerAction(new SetExplicitRegenerationDelay());
+//        ActionManager.registerAction(new EditFarmAction());
 
         // register commands
         registerCommands(FarmCommands.class);
