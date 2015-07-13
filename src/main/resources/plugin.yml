@@ -5,5 +5,4 @@ description: Provides upgradable item farms.
 author: Strasse36
 website: http://www.raid-craft.de
 depend: [RaidCraft-API, WorldControl]
-softdepend: [RCConversations2]
 database: true
