@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 /**
  * @author Philip Urban
  */
-public class UpgradeFarmSchematicAction implements Action<Player> {
+public class UpdateFarmSchematicAction implements Action<Player> {
 
     @Override
     @Information(

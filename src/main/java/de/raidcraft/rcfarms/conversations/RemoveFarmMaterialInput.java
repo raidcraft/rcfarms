@@ -37,15 +37,15 @@ public class RemoveFarmMaterialInput extends ConfiguredAnswer {
         Material material = ItemUtils.getItem(input);
         if (material == null) {
             conversation.sendMessage(ChatColor.RED + "Unbekanntes Material '" + input + "'! Eingabe wiederholen:");
-            return false;
+            return true;
         }
 
-        if (!((FarmConversation) conversation).getAllowedMaterials().contains(material)) {
+        if (!((FarmConversation) conversation).containsMaterial(material)) {
             conversation.sendMessage("Das Material " + material.name() + " ist aktuell nicht erlaubt und kann daher auch nicht entfernt werden.");
-            return false;
+            return true;
         }
 
-        ((FarmConversation) conversation).getAllowedMaterials().remove(material);
+        ((FarmConversation) conversation).removeMaterial(material);
         conversation.sendMessage(ChatColor.GREEN + material.name() + " wurde als erlaubtes Material von der Farm entfernt.");
         return true;
     }

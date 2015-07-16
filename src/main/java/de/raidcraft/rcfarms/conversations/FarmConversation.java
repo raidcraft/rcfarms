@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author mdoering
@@ -31,5 +32,22 @@ public class FarmConversation extends PlayerConversation {
     public FarmConversation(Player player, ConversationTemplate conversationTemplate, ConversationHost conversationHost) {
 
         super(player, conversationTemplate, conversationHost);
+    }
+
+    public void addMaterial(Material material) {
+
+        allowedMaterials.add(material);
+        set("material_list", allowedMaterials.stream().map(Enum::name).collect(Collectors.joining(",")));
+    }
+
+    public void removeMaterial(Material material) {
+
+        allowedMaterials.remove(material);
+        set("material_list", allowedMaterials.stream().map(Enum::name).collect(Collectors.joining(",")));
+    }
+
+    public boolean containsMaterial(Material material) {
+
+        return allowedMaterials.contains(material);
     }
 }

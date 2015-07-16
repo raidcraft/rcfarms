@@ -36,11 +36,11 @@ public class AddFarmMaterialInput extends ConfiguredAnswer {
 
         Material material = ItemUtils.getItem(input);
         if (material == null) {
-            conversation.sendMessage(ChatColor.RED + "Unbekanntes Material '" + input + "'! Eingabe wiederholen:");
-            return false;
+            conversation.sendMessage(ChatColor.RED + "Unbekanntes Material '" + input + "'!");
+            return true;
         }
 
-        ((FarmConversation) conversation).getAllowedMaterials().add(material);
+        ((FarmConversation) conversation).addMaterial(material);
         conversation.sendMessage(ChatColor.GREEN + material.name() + " wurde der Farm als erlaubtes Material hinzugefügt.");
         return true;
     }

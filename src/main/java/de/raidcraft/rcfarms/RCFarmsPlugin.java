@@ -11,16 +11,15 @@ import de.raidcraft.api.conversations.Conversations;
 import de.raidcraft.api.conversations.conversation.Conversation;
 import de.raidcraft.rcfarms.commands.FarmCommands;
 import de.raidcraft.rcfarms.conversations.AddFarmMaterialInput;
-import de.raidcraft.rcfarms.conversations.AllowAllMaterialsAnswer;
 import de.raidcraft.rcfarms.conversations.CreateFarmAction;
-import de.raidcraft.rcfarms.conversations.DisallowAllMaterialsAnswer;
 import de.raidcraft.rcfarms.conversations.FarmConversation;
 import de.raidcraft.rcfarms.conversations.FarmDeleteSchematicAnswer;
 import de.raidcraft.rcfarms.conversations.FarmNameInput;
 import de.raidcraft.rcfarms.conversations.RemoveFarmMaterialInput;
 import de.raidcraft.rcfarms.conversations.SelectFarmInput;
+import de.raidcraft.rcfarms.conversations.SetAllowAllMaterialsAction;
 import de.raidcraft.rcfarms.conversations.SetExplicitRegenerationDelayInput;
-import de.raidcraft.rcfarms.conversations.UpgradeFarmSchematicAction;
+import de.raidcraft.rcfarms.conversations.UpdateFarmSchematicAction;
 import de.raidcraft.rcfarms.listener.BlockListener;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
@@ -129,8 +128,6 @@ public class RCFarmsPlugin extends BasePlugin {
         Conversations.registerAnswer("farm-add-material", AddFarmMaterialInput.class);
         Conversations.registerAnswer("farm-remove-material", RemoveFarmMaterialInput.class);
         Conversations.registerAnswer("farm-name", FarmNameInput.class);
-        Conversations.registerAnswer("farm-allow-all-materials", AllowAllMaterialsAnswer.class);
-        Conversations.registerAnswer("farm-disallow-all-materials", DisallowAllMaterialsAnswer.class);
         Conversations.registerAnswer("farm-delete-schematic", FarmDeleteSchematicAnswer.class);
         Conversations.registerAnswer("farm-select", SelectFarmInput.class);
         Conversations.registerAnswer("farm-set-regenration-delay", SetExplicitRegenerationDelayInput.class);
@@ -139,7 +136,8 @@ public class RCFarmsPlugin extends BasePlugin {
     private void registerActionAPI() {
 
         ActionAPI.register(this)
-                .action(new UpgradeFarmSchematicAction())
+                .action(new UpdateFarmSchematicAction())
+                .action(new SetAllowAllMaterialsAction(), Conversation.class)
                 .action(new CreateFarmAction(), Conversation.class);
     }
 
