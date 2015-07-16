@@ -8,8 +8,8 @@ import com.sk89q.minecraft.util.commands.NestedCommand;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.RaidCraftException;
+import de.raidcraft.api.conversations.Conversations;
 import de.raidcraft.rcfarms.RCFarmsPlugin;
-import de.raidcraft.rcfarms.conversations.host.FarmHost;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
 import de.raidcraft.rcfarms.tables.TMaterial;
@@ -89,7 +89,7 @@ public class FarmCommands {
                 throw new CommandException("Kein Bereich markiert!");
             }
 
-            RaidCraft.getConversationProvider().triggerConversation(player, new FarmHost(player.getLocation(), plugin.getConfig().creatingConversationName));
+            Conversations.startConversation(player, plugin.getConfig().creatingConversationName);
         }
 
         @Command(
@@ -102,7 +102,7 @@ public class FarmCommands {
             if (sender instanceof ConsoleCommandSender) throw new CommandException("Players only!");
             Player player = (Player) sender;
 
-            RaidCraft.getConversationProvider().triggerConversation(player, new FarmHost(player.getLocation(), plugin.getConfig().editingConversationName));
+            Conversations.startConversation(player, plugin.getConfig().editingConversationName);
         }
 
         @Command(
