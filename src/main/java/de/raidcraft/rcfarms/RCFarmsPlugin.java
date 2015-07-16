@@ -4,11 +4,23 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.raidcraft.RaidCraft;
 import de.raidcraft.api.BasePlugin;
+import de.raidcraft.api.action.ActionAPI;
 import de.raidcraft.api.config.ConfigurationBase;
 import de.raidcraft.api.config.Setting;
-import de.raidcraft.rcconversations.actions.ActionManager;
+import de.raidcraft.api.conversations.Conversations;
+import de.raidcraft.api.conversations.conversation.Conversation;
 import de.raidcraft.rcfarms.commands.FarmCommands;
-import de.raidcraft.rcfarms.conversations.actions.wizzard.*;
+import de.raidcraft.rcfarms.conversations.AddFarmMaterialInput;
+import de.raidcraft.rcfarms.conversations.AllowAllMaterialsAnswer;
+import de.raidcraft.rcfarms.conversations.CreateFarmAction;
+import de.raidcraft.rcfarms.conversations.DisallowAllMaterialsAnswer;
+import de.raidcraft.rcfarms.conversations.FarmConversation;
+import de.raidcraft.rcfarms.conversations.FarmDeleteSchematicAnswer;
+import de.raidcraft.rcfarms.conversations.FarmNameInput;
+import de.raidcraft.rcfarms.conversations.RemoveFarmMaterialInput;
+import de.raidcraft.rcfarms.conversations.SelectFarmInput;
+import de.raidcraft.rcfarms.conversations.SetExplicitRegenerationDelayInput;
+import de.raidcraft.rcfarms.conversations.UpgradeFarmSchematicAction;
 import de.raidcraft.rcfarms.listener.BlockListener;
 import de.raidcraft.rcfarms.tables.TFarm;
 import de.raidcraft.rcfarms.tables.TFarmLocation;
@@ -40,19 +52,8 @@ public class RCFarmsPlugin extends BasePlugin {
     @Override
     public void enable() {
 
-        // register conversation actions
-        // wizard actions
-//        ActionManager.registerAction(new AddFarmMaterialAction());
-//        ActionManager.registerAction(new AddFarmNameAction());
-//        ActionManager.registerAction(new CreateFarmAction());
-//        ActionManager.registerAction(new SelectFarmAction());
-//        ActionManager.registerAction(new RemoveFarmMaterialAction());
-//        ActionManager.registerAction(new UpgradeFarmSchematicAction());
-//        ActionManager.registerAction(new DeleteFarmSchematicAction());
-//        ActionManager.registerAction(new AllowAllFarmMaterialsAction());
-//        ActionManager.registerAction(new DisalowAllFarmMaterialsAction());
-//        ActionManager.registerAction(new SetExplicitRegenerationDelay());
-//        ActionManager.registerAction(new EditFarmAction());
+        registerConversationAPI();
+        registerActionAPI();
 
         // register commands
         registerCommands(FarmCommands.class);
@@ -120,6 +121,26 @@ public class RCFarmsPlugin extends BasePlugin {
     public void disable() {
 
 //        worldGuardManager.save();
+    }
+
+    private void registerConversationAPI() {
+
+        Conversations.registerConversationType("farm", FarmConversation.class);
+        Conversations.registerAnswer("farm-add-material", AddFarmMaterialInput.class);
+        Conversations.registerAnswer("farm-remove-material", RemoveFarmMaterialInput.class);
+        Conversations.registerAnswer("farm-name", FarmNameInput.class);
+        Conversations.registerAnswer("farm-allow-all-materials", AllowAllMaterialsAnswer.class);
+        Conversations.registerAnswer("farm-disallow-all-materials", DisallowAllMaterialsAnswer.class);
+        Conversations.registerAnswer("farm-delete-schematic", FarmDeleteSchematicAnswer.class);
+        Conversations.registerAnswer("farm-select", SelectFarmInput.class);
+        Conversations.registerAnswer("farm-set-regenration-delay", SetExplicitRegenerationDelayInput.class);
+    }
+
+    private void registerActionAPI() {
+
+        ActionAPI.register(this)
+                .action(new UpgradeFarmSchematicAction())
+                .action(new CreateFarmAction(), Conversation.class);
     }
 
     public LocalConfiguration getConfig() {
