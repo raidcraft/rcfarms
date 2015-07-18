@@ -14,7 +14,8 @@ public class SetAllowAllMaterialsAction implements Action<Conversation> {
     @Override
     @Information(
             value = "farm.allow-materials",
-            desc = "Sets the farm conversation to allow all or not all materials"
+            desc = "Sets the farm conversation to allow all or not all materials",
+            conf = "all: true"
     )
     public void accept(Conversation conversation, ConfigurationSection config) {
 
